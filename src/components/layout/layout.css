@@ -1,0 +1,16 @@
+.header {
+  background-color: #000;
+  padding: 15px 5px;
+  margin-bottom: 15px;
+}
+
+.header-content {
+  width: 90%;
+  margin: 0 auto;
+}
+
+@media (min-width: 769px) {
+  .header-content {
+    max-width: 700px;
+  }
+}

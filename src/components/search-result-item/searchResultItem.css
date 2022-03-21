@@ -1,0 +1,70 @@
+.results-title {
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.result-item {
+  display: flex;
+  gap: 5%;
+
+  padding: 15px;
+  margin-bottom: 4%;
+
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 1px 0px 12px -5px rgb(0 0 0 / 30%);
+}
+
+.result-item:hover {
+  box-shadow: 12px 12px 12px -5px rgb(0 0 0 / 30%);
+}
+
+.result-item-img {
+  max-height: 100px;
+  max-width: 100px;
+  margin-top: 3%;
+}
+
+.result-item-subcontainer-content {
+  flex-grow: 1;
+}
+
+.result-item-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.new {
+  color: green;
+}
+.used {
+  color: orange;
+}
+
+.result-item-sold-quantity {
+  margin-top: 50px;
+  margin-bottom: 0;
+}
+
+.result-item-subcontainer-price-stock {
+  display: flex;
+  flex-direction: column;
+  gap: 3%;
+}
+
+.result-item-price {
+  color: #5791a4;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.result-item-stock {
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.result-item__main-container {
+  text-decoration: none;
+  color: inherit;
+}
