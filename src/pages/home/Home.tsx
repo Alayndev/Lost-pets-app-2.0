@@ -28,10 +28,6 @@ function Home() {
         <h1 className={css.title}>
           Hace tu búsqueda desde la caja de búsqueda
         </h1>
-
-        <Link to="/login">
-          <button> Ir a Login </button>
-        </Link>
       </div>
     </>
   );

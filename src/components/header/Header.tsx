@@ -9,8 +9,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import PetsIcon from "@mui/icons-material/Pets";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
 
 const pages = [
@@ -56,11 +57,11 @@ const Header = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img
-            className={css.logo}
-            src="https://lost-pet-finder-app.herokuapp.com/footprint.a889f802.png"
-            alt="logo"
-          />
+          <Link to="/">
+            <div className={css.logoSection}>
+              <PetsIcon />
+            </div>
+          </Link>
 
           {/* Mobile Header */}
           <Box
