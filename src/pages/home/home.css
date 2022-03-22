@@ -1,11 +1,25 @@
-.container {
+.mainContainer {
+  height: 100%;
+  padding: 30px;
   display: flex;
-  font-size: 20px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 500px;
 }
 
-.title {
-  text-align: center;
+.petsContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: space-around;
+}
+
+@media (min-width: 769px) {
+  .petsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
 }
