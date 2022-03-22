@@ -1,0 +1,7 @@
+.mobileHeader {
+  flex-direction: row-reverse;
+}
+
+.logo {
+    margin: 0 15px;
+}
