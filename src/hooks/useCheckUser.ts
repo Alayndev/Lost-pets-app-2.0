@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
 
 export const emailState = atom({
   key: "emailState",
-  default: "",
+  default: null,
 });
 
 const checkEmailState = selector({

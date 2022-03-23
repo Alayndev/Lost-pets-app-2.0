@@ -32,13 +32,19 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  // Router - ACA - Falta mandar a login SIEMPRE que NO este logeado - Cambiar "Iniciar Sesión" por el email del user logeado
+  // ! Router: Si jode con login comentar if de linea 45 a 47 y listo
   const handleCloseNavMenu = (page?) => {
     setAnchorElNav(null);
 
     console.log(page, "page");
 
-    if (page) {
+    const userEmail = localStorage.getItem("email");
+
+    console.log(userEmail, "userEmail");
+
+    if (userEmail === "null") {
+      navigate("/login", { replace: true });
+    } else if (page) {
       page === "Mis datos" ? navigate("/user-data", { replace: true }) : null;
 
       page === "Mis mascotas reportadas"

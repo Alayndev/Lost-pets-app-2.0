@@ -3,6 +3,7 @@ import css from "./home.css";
 import { PrimaryButton } from "ui/buttons";
 
 import { PetCard } from "components/pet-card/PetCard";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 // TODO: ACA - Abstraer a la Page de lógica, sacar llamada API - Sacar ternarios de return en lo posible
 function Home() {
@@ -34,12 +35,14 @@ function Home() {
     });
   };
 
+  useLocalStorage("email", null); // Lo inicializamos como null para poder hacer el router en el Header, dirigiendo siempre a /login al no tener un email ingresado
+
   return (
     <>
       {showButton ? (
-        <div className={css.homeContainer}>
+        <div onClick={handleClick} className={css.homeContainer}>
           <PrimaryButton>
-            <span onClick={handleClick}>Dar mi ubicación</span>
+            <span>Dar mi ubicación</span>
           </PrimaryButton>
         </div>
       ) : null}
