@@ -1,10 +1,10 @@
 import React from "react";
 import css from "./button.css";
 
-function Button(props: { children: any }) {
+function PrimaryButton(props: { children: any }) {
   return (
     <>
-      <button className={css["search-button"]}>{props.children}</button>
+      <button className={css.primaryButton}>{props.children}</button>
     </>
   );
 }
@@ -17,4 +17,4 @@ function SecondaryButton(props: { children: any }) {
   );
 }
 
-export { Button, SecondaryButton };
+export { PrimaryButton, SecondaryButton };

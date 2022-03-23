@@ -1,17 +1,19 @@
-.search-button {
+.primaryButton {
   padding: 12px 35px;
   font-family: "Roboto", sans-serif;
   border-radius: 26px;
-  background-color: #50ce9d;
+  color: #1976d2;
   font-weight: bold;
   cursor: pointer;
+  text-transform: uppercase;
   border-style: none;
+  box-shadow: 1px 1px 12px -5px #1976d2;
 }
 
-.search-button:active {
+.primaryButton:active {
   transform: scale(0.9);
-  border: 0.8px solid black;
-  box-shadow: 1px 1px 12px -5px #50ce9d;
+  border: 0.8px solid 1976d2;
+  box-shadow: 1px 1px 12px -5px #1976d2;
 }
 
 .secondaryButton {

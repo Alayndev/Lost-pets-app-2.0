@@ -1,5 +1,10 @@
-.mainContainer {
-  height: 100%;
+.homeContainer {
+  height: 80%;
+}
+
+.mainContainer,
+.petsContainer,
+.homeContainer {
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -8,11 +13,7 @@
 }
 
 .petsContainer {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
   gap: 15px;
-  justify-content: space-around;
 }
 
 @media (min-width: 769px) {

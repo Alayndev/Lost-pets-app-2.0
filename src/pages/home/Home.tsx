@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import css from "./home.css";
+import { PrimaryButton } from "ui/buttons";
 
 import { PetCard } from "components/pet-card/PetCard";
 
-// ACA - Abstraer a la Page de lógica, sacar llamada API - Sacar ternarios de return en lo posible
+// TODO: ACA - Abstraer a la Page de lógica, sacar llamada API - Sacar ternarios de return en lo posible
 function Home() {
   const [showButton, setShowButton] = useState(true);
 
@@ -35,11 +36,15 @@ function Home() {
 
   return (
     <>
-      <div className={css.mainContainer}>
-        {showButton ? (
-          <button onClick={handleClick}>Dar mi ubicación</button>
-        ) : null}
+      {showButton ? (
+        <div className={css.homeContainer}>
+          <PrimaryButton>
+            <span onClick={handleClick}>Dar mi ubicación</span>
+          </PrimaryButton>
+        </div>
+      ) : null}
 
+      <div className={css.mainContainer}>
         {!showButton ? (
           <>
             <h1>Mascotas perdidas cerca tuyo: {pets.length} </h1>
