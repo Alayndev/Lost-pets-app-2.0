@@ -1,38 +1,18 @@
 import React, { useState } from "react";
 import css from "./home.css";
-import { PrimaryButton } from "ui/buttons";
-
+import { LocationButton } from "components/location-button/LocationButton";
 import { PetCard } from "components/pet-card/PetCard";
 import { useLocalStorage } from "hooks/useLocalStorage";
+import { getPetsAround } from "hooks/usePets";
 
-// TODO: ACA - Abstraer a la Page de lógica, sacar llamada API - Sacar ternarios de return en lo posible
 function Home() {
   const [showButton, setShowButton] = useState(true);
 
-  const [pets, setPets] = useState([]);
+  const pets = getPetsAround();
+  console.log(pets, "pets home");
 
   const handleClick = () => {
-    navigator.geolocation.getCurrentPosition(async (geo) => {
-      const { latitude, longitude } = geo.coords;
-
-      const res = await fetch(
-        `https://lost-pet-finder-app.herokuapp.com/pets/around?lat=${latitude}&lng=${longitude}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const results = await res.json();
-
-      setPets(results.petsAround.hits);
-
-      setShowButton(false);
-
-      console.log(results.petsAround.hits, "mascotas cerca");
-    });
+    setShowButton(false);
   };
 
   useLocalStorage("email", null); // Lo inicializamos como null para poder hacer el router en el Header, dirigiendo siempre a /login al no tener un email ingresado
@@ -41,9 +21,7 @@ function Home() {
     <>
       {showButton ? (
         <div onClick={handleClick} className={css.homeContainer}>
-          <PrimaryButton>
-            <span>Dar mi ubicación</span>
-          </PrimaryButton>
+          <LocationButton />
         </div>
       ) : null}
 

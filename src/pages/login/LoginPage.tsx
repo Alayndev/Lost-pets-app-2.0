@@ -12,6 +12,7 @@ function LoginPage() {
   const [emailStateValue, setEmailState] = useRecoilState(emailState);
   console.log(emailStateValue, "email inicial");
 
+  // Componentizar y llevar al componente 
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -22,11 +23,12 @@ function LoginPage() {
 
   useLocalStorage("email", emailStateValue);
 
+  // Solamente esto dejar - O quizas tampoco
   const navigate = useNavigate();
   const exist = useCheckUser();
   console.log(exist, "boolean, decidir navigate");
 
-  // ? Decidir navegacion - FUNCIONA pero me devuelve un error en la consola: Cannot update a component (`BrowserRouter`) while rendering a different component (`LoginPage`)
+  // ? Decidir navegacion - FUNCIONA pero me devuelve un error en la consola: Cannot update a component (`BrowserRouter`) while rendering a different component (`LoginPage`) --> EN PRODUCCIÓN NO MUESTRA EL ERROR
   if (exist === true) {
     navigate("/login/password", { replace: true });
   } else if (exist === false) {
@@ -38,7 +40,7 @@ function LoginPage() {
       <div className={css.mainContainer}>
         <h1 className={css.title}>Ingresar</h1>
 
-        {/* Hacerlo un Componente */}
+        {/* Componentizar y llevar al componente */}
         <form onSubmit={handleSubmit}>
           <label>
             <div> EMAIL </div>
