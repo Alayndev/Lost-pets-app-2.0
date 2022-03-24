@@ -14,14 +14,21 @@ import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
 
-const pages = [
-  "Mis datos",
-  "Mis mascotas reportadas",
-  "Reportar mascota",
-  "Iniciar Sesión",
-];
-
 const Header = () => {
+  // TODO: getLocalStorage() en useLocalStorage()
+  const userToken = localStorage.getItem("token");
+  const userEmail = localStorage.getItem("email");
+
+  const session =
+    userToken === "null" ? "Iniciar Sesión" : JSON.parse(userEmail);
+
+  const pages = [
+    "Mis datos",
+    "Mis mascotas reportadas",
+    "Reportar mascota",
+    session,
+  ];
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -38,11 +45,11 @@ const Header = () => {
 
     console.log(page, "page");
 
-    const userEmail = localStorage.getItem("email");
+    const userToken = localStorage.getItem("token");
 
-    console.log(userEmail, "userEmail");
+    console.log(userToken, "userToken");
 
-    if (userEmail === "null") {
+    if (userToken === "null") {
       navigate("/login", { replace: true });
     } else if (page) {
       page === "Mis datos" ? navigate("/user-data", { replace: true }) : null;

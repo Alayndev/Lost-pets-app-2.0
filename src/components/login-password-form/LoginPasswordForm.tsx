@@ -8,7 +8,7 @@ import { useLocalStorage } from "hooks/useLocalStorage";
 import { createOrFindUser, tokenState } from "hooks/useCreateOrFindUser";
 import css from "./loginPasswordForm.css";
 
-// Generar Token: Guardar Token para hacer validaciones en Pages como user-data. En Atom y/o en Local Storage? - Copiar como ya guarde el otro dato en LS y Atom, hacer lo mismo
+// Generar Token: Guardar Token para hacer validaciones en Atom y/o en Local Storage
 function LoginPasswordForm() {
   const [correctPassword, setCorrectPassword] = useState(true);
 
