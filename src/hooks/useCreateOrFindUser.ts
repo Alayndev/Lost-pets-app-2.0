@@ -5,11 +5,11 @@ export const tokenState = atom({
   default: null,
 });
 
-async function getToken(userData) {
+async function getToken(email, password) {
   const { token } = await (
     await fetch("https://lost-pet-finder-app.herokuapp.com/auth/token", {
       method: "POST",
-      body: JSON.stringify(userData),
+      body: JSON.stringify({ email, password }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -26,7 +26,11 @@ async function getToken(userData) {
   }
 }
 
-async function createOrFindUser(userData: { email: string; password: string }) {
+async function createOrFindUser(userData: {
+  fullName?: string;
+  email: string;
+  password: string;
+}) {
   const res = await (
     await fetch("https://lost-pet-finder-app.herokuapp.com/auth", {
       method: "POST",
@@ -37,13 +41,13 @@ async function createOrFindUser(userData: { email: string; password: string }) {
     })
   ).json();
 
-  console.log(res);
+  console.log(res, "createOrFindUser");
 
-  if (res.passwordValideted.exist === true) {
+  if (res.authCreated === true || res.passwordValideted.exist === true) {
     // token
-    const token = await getToken(userData);
+    const token = await getToken(userData.email, userData.password);
 
-    const response = res.passwordValideted.exist;
+    const response = true;
     return { response, token };
   } else {
     return { response: false };

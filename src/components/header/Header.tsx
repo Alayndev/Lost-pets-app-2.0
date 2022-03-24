@@ -15,7 +15,7 @@ import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
 
 const Header = () => {
-  // TODO: getLocalStorage() en useLocalStorage()
+  // TODO: getLocalStorage(item: string) en useLocalStorage()
   const userToken = localStorage.getItem("token");
   const userEmail = localStorage.getItem("email");
 
@@ -52,7 +52,9 @@ const Header = () => {
     if (userToken === "null") {
       navigate("/login", { replace: true });
     } else if (page) {
-      page === "Mis datos" ? navigate("/user-data", { replace: true }) : null;
+      page === "Mis datos"
+        ? navigate("/edit-profile", { replace: true })
+        : null;
 
       page === "Mis mascotas reportadas"
         ? navigate("/user-pets", { replace: true })

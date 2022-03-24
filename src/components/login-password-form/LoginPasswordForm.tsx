@@ -34,7 +34,7 @@ function LoginPasswordForm() {
 
     setToken(token);
 
-    response ? navigate("/user-data", { replace: true }) : null;
+    response ? navigate("/edit-profile", { replace: true }) : null;
   };
 
   useLocalStorage("token", token);
