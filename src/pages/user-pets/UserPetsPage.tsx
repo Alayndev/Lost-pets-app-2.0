@@ -12,14 +12,13 @@ function UserPetsPage() {
 
   const pullData = async () => {
     const userPetsAPI = await pullUserPets();
-    console.log(userPetsAPI, "user-pets");
+    console.log(userPetsAPI, "/user-pets page");
     setUserPets(userPetsAPI);
   };
 
   useEffect(() => {
     pullData();
   }, []);
-
 
   // petId
   const [petId, setPetId] = useRecoilState(petIdState);

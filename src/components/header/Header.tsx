@@ -13,14 +13,14 @@ import PetsIcon from "@mui/icons-material/Pets";
 
 import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
+import { getLocalStorageItem } from "hooks/useLocalStorage";
 
 const Header = () => {
-  // TODO: getLocalStorage(item: string) en useLocalStorage()
-  const userToken = localStorage.getItem("token");
-  const userEmail = localStorage.getItem("email");
+  const userToken = getLocalStorageItem("token");
 
-  const session =
-    userToken === "null" ? "Iniciar Sesión" : JSON.parse(userEmail);
+  const userEmail = getLocalStorageItem("email");
+
+  const session = !userToken ? "Iniciar Sesión" : userEmail;
 
   const pages = [
     "Mis datos",
@@ -52,9 +52,7 @@ const Header = () => {
     if (userToken === "null") {
       navigate("/login", { replace: true });
     } else if (page) {
-      page === "Mis datos"
-        ? navigate("/user-data", { replace: true })
-        : null;
+      page === "Mis datos" ? navigate("/user-data", { replace: true }) : null;
 
       page === "Mis mascotas reportadas"
         ? navigate("/user-pets", { replace: true })
@@ -139,3 +137,6 @@ const Header = () => {
   );
 };
 export { Header };
+function getLocalStorage(arg0: string) {
+  throw new Error("Function not implemented.");
+}

@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { getLocalStorageItem } from "./useLocalStorage";
 
 // petId
 export const petIdState = atom({
@@ -12,23 +13,27 @@ export const userPetsState = atom({
   default: [],
 });
 
-// TODO: Crear getLocalStorage(item: string) en useLocalStorage.tsx y que simplemente haga esto. Estar atento a si React lo tomo como Custom Hook por estar dentro de useLocalStorage.tsx, aprender de eso. Si es asi ponerlo en carpeta utils o algo asi
-const userToken = localStorage.getItem("token");
-const tokenParsed = JSON.parse(userToken);
-
 const pullUserPets = async () => {
+  const tokenParsed = getLocalStorageItem("token");
+  console.log(tokenParsed, "token para API /USERS/PETS");
+
   const { userPets } = await (
     await fetch("https://lost-pet-finder-app.herokuapp.com/users/pets", {
       method: "GET",
       headers: {
         Authorization: `bearer ${tokenParsed}`,
+        "Content-Type": "application/json",
       },
     })
   ).json();
 
   console.log(userPets, "json res");
 
-  return userPets;
+  if (userPets.length > 0) {
+    return userPets;
+  } else if (userPets.error) {
+    return [];
+  }
 };
 
 export { pullUserPets };

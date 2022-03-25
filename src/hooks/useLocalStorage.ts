@@ -11,4 +11,11 @@ function useLocalStorage(key, initialValue) {
   return email;
 }
 
-export { useLocalStorage };
+function getLocalStorageItem(item: string) {
+  const itemLS = localStorage.getItem(item);
+  const itemLSparsed = JSON.parse(itemLS);
+
+  return itemLSparsed;
+}
+
+export { useLocalStorage, getLocalStorageItem };

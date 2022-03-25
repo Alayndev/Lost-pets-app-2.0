@@ -1,16 +1,16 @@
 import React from "react";
 import { MyDataForm } from "components/my-data-form/MyDataForm";
+import { getLocalStorageItem } from "hooks/useLocalStorage";
 
-// TODO: Crear getLocalStorage(item: string) en useLocalStorage.tsx y que simplemente haga esto. Estar atento a si React lo tomo como Custom Hook por estar dentro de useLocalStorage.tsx, aprender de eso. Si es asi ponerlo en carpeta utils o algo asi
 function UserDataPage() {
-  const itemLS = localStorage.getItem("token");
-  const itemLSparsed = JSON.parse(itemLS);
-  console.log(itemLSparsed, "itemLSparsed SignUp.tsx - futuro user-data");
+  const tokenParsed = getLocalStorageItem("token");
+
+  console.log(tokenParsed, "tokenParsed /user-data page");
 
   return (
     <>
       <h1>Mis Datos</h1>
-      {itemLSparsed ? (
+      {tokenParsed ? (
         <p>
           Editá tu información personal. No es necesario que edites tu
           información personal para poder reportar, ya podés hacerlo.
@@ -21,8 +21,8 @@ function UserDataPage() {
         </p>
       )}
 
-      {itemLSparsed ? (
-        <MyDataForm function="update" itemLS={itemLSparsed} />
+      {tokenParsed ? (
+        <MyDataForm function="update" itemLS={tokenParsed} />
       ) : (
         <MyDataForm function="signup" itemLS="email" />
       )}

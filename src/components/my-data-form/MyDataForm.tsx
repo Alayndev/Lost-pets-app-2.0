@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createOrFindUser, tokenState } from "hooks/useCreateOrFindUser";
-import { useLocalStorage } from "hooks/useLocalStorage";
+import { getLocalStorageItem, useLocalStorage } from "hooks/useLocalStorage";
 import { useRecoilState } from "recoil";
 import { PrimaryButton } from "ui/buttons";
 import Alert from "@mui/material/Alert";
@@ -31,13 +31,12 @@ function MyDataForm(props: MyDataFormProps) {
     if (password === repeatedPassword) {
       // SignUp user
       if (props.function === "signup") {
-        // TODO: Crear getLocalStorage(item: string) en useLocalStorage.tsx y que simplemente haga esto. Estar atento a si React lo tomo como Custom Hook por estar dentro de useLocalStorage.tsx, aprender de eso. Si es asi ponerlo en carpeta utils o algo asi
-        const itemLS = localStorage.getItem(props.itemLS);
-        const itemLSparsed = JSON.parse(itemLS);
+        const emailParsed = getLocalStorageItem("email");
+        console.log(emailParsed, "email parseado");
 
         const userData = {
           fullName: e.target.name.value,
-          email: itemLSparsed,
+          email: emailParsed,
           password,
         };
 
