@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { PetCard } from "components/pet-card/PetCard";
 import css from "./userPetsPage.css";
 import { useRecoilState } from "recoil";
 import { petIdState, pullUserPets, userPetsState } from "hooks/useUserPets";
-import { useLocalStorage } from "hooks/useLocalStorage";
+import { useNavigate } from "react-router-dom";
 
-// TODO: Navigate linea 30 dependiendo si 1/2 pages - Abstraer de lógica a la Page
+// TODO: Abstraer de lógica a la Page (algo más si se puede)
 function UserPetsPage() {
   // userPets
   const [userPets, setUserPets] = useRecoilState(userPetsState);
@@ -23,19 +23,19 @@ function UserPetsPage() {
   // petId
   const [petId, setPetId] = useRecoilState(petIdState);
 
+  const navigate = useNavigate();
+
   const handleClick = (id: number) => {
     console.log(id, "pet number");
     setPetId(id);
-    // navigate
-    // Dependiendo de si tenemos petId o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id). Podemos crear dos paginas como hicimos con el perfil: edit-pet o create-report
+    navigate("/pet-data", { replace: true });
   };
-
-  useLocalStorage("petId", petId);
 
   return (
     <>
       <h1 className={css.title}>Mis mascotas reportadas</h1>
       <div className={css.petsContainer}>
+        {/* TODO: Componente UserPets y llevo toda la lógica allá */}
         {userPets.length > 0 ? (
           userPets.map((pet) => (
             <div

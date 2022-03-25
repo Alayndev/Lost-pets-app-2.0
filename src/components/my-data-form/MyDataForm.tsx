@@ -4,6 +4,7 @@ import { getLocalStorageItem, useLocalStorage } from "hooks/useLocalStorage";
 import { useRecoilState } from "recoil";
 import { PrimaryButton } from "ui/buttons";
 import Alert from "@mui/material/Alert";
+import css from "./myDataForm.css";
 
 type MyDataFormProps = {
   function: string; // update - signup
@@ -11,7 +12,7 @@ type MyDataFormProps = {
   itemLS: string; // token - email - En verdad el token ya lo obtengo en la page y aca se lo paso parseado
 };
 
-// TODO: Buscar TODOS en este archivo - sacar console.log() ya funciona
+// TODO: Buscar TODOs en este archivo -  sacar console.log() ya funciona
 function MyDataForm(props: MyDataFormProps) {
   console.log(props, "props  MyDataForm");
 
@@ -89,22 +90,32 @@ function MyDataForm(props: MyDataFormProps) {
 
   return (
     <>
-      {/* TODO: Componentizar - UI Comp text-field*/}
+      {/* TODO: Componentizar - UI Comp text-field - Llevar reglas css de myDataForm.css*/}
 
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form onSubmit={handleSubmit} className={css.subContainer}>
+        <label className={css.label}>
           <div> NOMBRE </div>
-          <input type="name" name="name" required />
+          <input className={css.input} type="name" name="name" required />
         </label>
 
-        <label>
+        <label className={css.label}>
           <div> CONTRASEÑA </div>
-          <input type="password" name="password" required />
+          <input
+            className={css.input}
+            type="password"
+            name="password"
+            required
+          />
         </label>
 
-        <label>
+        <label className={css.label}>
           <div> REPETIR CONTRASEÑA </div>
-          <input type="password" name="repeatedPassword" required />
+          <input
+            className={css.input}
+            type="password"
+            name="repeatedPassword"
+            required
+          />
         </label>
 
         <div>
