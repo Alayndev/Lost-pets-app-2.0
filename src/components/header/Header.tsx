@@ -53,7 +53,7 @@ const Header = () => {
       navigate("/login", { replace: true });
     } else if (page) {
       page === "Mis datos"
-        ? navigate("/edit-profile", { replace: true })
+        ? navigate("/user-data", { replace: true })
         : null;
 
       page === "Mis mascotas reportadas"

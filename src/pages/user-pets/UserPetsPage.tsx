@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { petIdState, pullUserPets, userPetsState } from "hooks/useUserPets";
 import { useLocalStorage } from "hooks/useLocalStorage";
 
-// TODO: Navigate 30 dependiendo si 1/2 pages - Abstraer de lógica a la Page
+// TODO: Navigate linea 30 dependiendo si 1/2 pages - Abstraer de lógica a la Page
 function UserPetsPage() {
   // userPets
   const [userPets, setUserPets] = useRecoilState(userPetsState);

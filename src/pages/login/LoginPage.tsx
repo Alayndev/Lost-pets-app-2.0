@@ -32,7 +32,7 @@ function LoginPage() {
   if (exist === true) {
     navigate("/login/password", { replace: true });
   } else if (exist === false) {
-    navigate("/sign-up", { replace: true });
+    navigate("/user-data", { replace: true });
   }
 
   return (
