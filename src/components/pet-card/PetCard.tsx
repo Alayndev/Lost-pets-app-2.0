@@ -11,6 +11,7 @@ type PetCardProps = {
   name: string;
   description: string;
   loc: string;
+  type: string;
 };
 
 function PetCard(props: PetCardProps) {
@@ -41,7 +42,7 @@ function PetCard(props: PetCardProps) {
 
       <CardActions>
         <Button size="small" color="primary">
-          Reportar información
+          {props.type} información
         </Button>
       </CardActions>
     </Card>

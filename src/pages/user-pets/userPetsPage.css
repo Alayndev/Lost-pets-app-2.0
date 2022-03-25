@@ -1,0 +1,12 @@
+.title {
+  text-align: center;
+}
+
+.petsContainer {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}

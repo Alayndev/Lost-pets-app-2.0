@@ -15,7 +15,7 @@ function Home() {
     setShowButton(false);
   };
 
-  useLocalStorage("email", null); 
+  useLocalStorage("email", null);
   useLocalStorage("token", null); // Lo inicializamos como null para poder hacer el router en el Header, dirigiendo siempre a /login al no tener un email ingresado
 
   return (
@@ -38,6 +38,7 @@ function Home() {
                   name={pet.fullName}
                   description={pet.description}
                   loc={pet.loc}
+                  type={"Reportar"}
                 />
               ))}
             </div>
