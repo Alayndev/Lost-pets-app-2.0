@@ -1,9 +1,9 @@
 import { atom } from "recoil";
 import { getLocalStorageItem } from "./useLocalStorage";
 
-// petId
-export const petIdState = atom({
-  key: "petIdState",
+// petData
+export const petDataState = atom({
+  key: "petDataState",
   default: null,
 });
 

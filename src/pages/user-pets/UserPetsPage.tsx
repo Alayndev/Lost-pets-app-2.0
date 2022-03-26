@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { PetCard } from "components/pet-card/PetCard";
 import css from "./userPetsPage.css";
 import { useRecoilState } from "recoil";
-import { petIdState, pullUserPets, userPetsState } from "hooks/useUserPets";
+import { petDataState, pullUserPets, userPetsState } from "hooks/useUserPets";
 import { useNavigate } from "react-router-dom";
 
 // TODO: Abstraer de lógica a la Page (algo más si se puede)
@@ -20,14 +20,14 @@ function UserPetsPage() {
     pullData();
   }, []);
 
-  // petId
-  const [petId, setPetId] = useRecoilState(petIdState);
+  // petData
+  const [petData, setPetData] = useRecoilState(petDataState);
 
   const navigate = useNavigate();
 
-  const handleClick = (id: number) => {
-    console.log(id, "pet number");
-    setPetId(id);
+  const handleClick = (pet) => {
+    console.log(pet, "guardando petData en Atom");
+    setPetData(pet);
     navigate("/pet-data", { replace: true });
   };
 
@@ -41,7 +41,7 @@ function UserPetsPage() {
             <div
               key={pet.id}
               className="petContainer"
-              onClick={() => handleClick(pet.id)}
+              onClick={() => handleClick(pet)}
             >
               <PetCard
                 key={pet.id}
