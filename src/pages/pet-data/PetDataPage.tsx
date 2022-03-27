@@ -1,38 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { petDataState } from "hooks/useUserPets";
-import { getLocalStorageItem, useLocalStorage } from "hooks/useLocalStorage";
 import { PrimaryButton } from "ui/buttons";
+import { MapboxSeach } from "components/mapbox-search/MapboxSearch";
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
   // petData
   const [petData, setPetData] = useRecoilState(petDataState);
-  console.log(petData, "petData Atom"); // Ya tengo la pet data y me ahorro una llamada a la API, llenar formulario con estos datos (nombre, descripcion, imagen)
+  console.log(petData, "petData Atom");
 
   const reportOrEdit = petData ? <span>Editar</span> : <span>Reportar</span>;
 
+  // Biolerplate APX Mapbox
+  const [formData, setFormData] = useState({});
+  function submitHandler(e) {
+    e.preventDefault();
+    const allData = {
+      formData,
+      texto: e.target.geoloc.value,
+    };
+    console.log(allData, "allData"); // ? Debería guardar allData con setFormData(allData) ?
+  }
+
+  function handleMapboxChange(data) {
+    // voy agregando data al state interno del form
+    setFormData({
+      ...formData,
+      mapbox: data,
+    });
+
+    console.log(formData, "formData");
+  }
   return (
     <>
       <h1>{reportOrEdit} mascota perdida</h1>
 
-      <form className="pet-data form card">
+      <form className="pet-data form card" onSubmit={submitHandler}>
         {/* Dropzone */}
         <div className="sub-container">
           <label className="label">
             <div>NOMBRE: </div>
-            <input type="text" name="name" className="is-success" required />
+            <input
+              defaultValue={petData?.fullName}
+              type="text"
+              name="name"
+              className="is-success"
+            />
           </label>
 
           <label className="label">
             <div> DESCRIPCIÓN: </div>
-            <input type="text" name="description" className="is-success" />
+            <input
+              defaultValue={petData?.description}
+              type="text"
+              name="description"
+              className="is-success"
+            />
           </label>
 
           <label className="label" id="img">
             {/* Dropzone */}
             <span className="imgURL">
-              <img className="imgUrlPet pet-card__img" />
+              <img
+                className="imgUrlPet pet-card__img"
+                style={{ width: "335px", height: "335px" }}
+                src={petData?.pictureURL}
+              />
             </span>
 
             <br />
@@ -41,7 +75,7 @@ function PetDataPage() {
             </p>
             <p className="subtitle">
               Si su imagen es más pesada, asegúrese de achicarla, de otro modo
-              el reporte NO se realizará. Hágalo en segundos con
+              el reporte NO se realizará. Hágalo en segundos con <span> </span>
               <a href="https://www.achicarimagenes.com.ar/" target="_blank">
                 esta web
               </a>
@@ -61,11 +95,9 @@ function PetDataPage() {
           </p>
 
           {/* MapBox */}
-          <div
-            id="map"
-            style={{ width: "335px", height: "335px", background: "blue" }}
-          ></div>
-          <input type="text" name="geoloc" className="search-geoloc" required />
+          <MapboxSeach onChange={handleMapboxChange} />
+
+          <input type="text" name="geoloc" className="search-geoloc" />
 
           <span className="loader-container"> </span>
 
