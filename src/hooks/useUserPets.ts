@@ -36,4 +36,17 @@ const pullUserPets = async () => {
   }
 };
 
-export { pullUserPets };
+// pet-data
+export const petLngLatState = atom({
+  key: "petLngLatState",
+  default: null,
+});
+
+// TODO: Así de ser useLocalStorage(key, value). Eliminar este dsp.
+function setLSItem(key, value) {
+  console.log("Me ejecutp");
+
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+export { pullUserPets, setLSItem };

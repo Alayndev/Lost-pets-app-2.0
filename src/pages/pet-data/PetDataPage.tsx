@@ -20,7 +20,7 @@ function PetDataPage() {
       formData,
       texto: e.target.geoloc.value,
     };
-    console.log(allData, "allData"); // ? Debería guardar allData con setFormData(allData) ?
+    console.log(allData, "allData");
   }
 
   function handleMapboxChange(data) {
@@ -95,7 +95,12 @@ function PetDataPage() {
           </p>
 
           {/* MapBox */}
-          <MapboxSeach onChange={handleMapboxChange} />
+          <MapboxSeach
+            lat={petData?.lat}
+            lng={petData?.lng}
+            loc={petData?.loc}
+            onChange={handleMapboxChange}
+          />
 
           <input type="text" name="geoloc" className="search-geoloc" />
 
