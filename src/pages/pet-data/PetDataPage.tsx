@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { petDataState } from "hooks/useUserPets";
 import { PrimaryButton } from "ui/buttons";
 import { MapboxSeach } from "components/mapbox-search/MapboxSearch";
+import { Dropzone } from "components/dropzone/Dropzone";
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
@@ -14,6 +15,7 @@ function PetDataPage() {
 
   // Biolerplate APX Mapbox
   const [formData, setFormData] = useState({});
+
   function submitHandler(e) {
     e.preventDefault();
     const allData = {
@@ -32,6 +34,9 @@ function PetDataPage() {
 
     console.log(formData, "formData");
   }
+
+  // Situacion Actual: ya tengo en Atom/LS dataURL (Dropzone) y petLngLat (Mapbox). Ahora hacer llamdas a la API dependiendo si voy a Editar o Reportar (esto en submitHandler). if(petData) { Editar } else { Reportar }. Guiarme con MyDataForm.tsx
+
   return (
     <>
       <h1>{reportOrEdit} mascota perdida</h1>
@@ -59,30 +64,18 @@ function PetDataPage() {
             />
           </label>
 
+          <p className="subtitle">
+            La imagen debe pesar hasta 60kB. Si su imagen es más pesada,
+            asegúrese de achicarla, de otro modo el reporte NO se realizará.
+            Hágalo en segundos con <span> </span>
+            <a href="https://www.achicarimagenes.com.ar/" target="_blank">
+              esta web
+            </a>
+          </p>
           <label className="label" id="img">
             {/* Dropzone */}
-            <span className="imgURL">
-              <img
-                className="imgUrlPet pet-card__img"
-                style={{ width: "335px", height: "335px" }}
-                src={petData?.pictureURL}
-              />
-            </span>
 
-            <br />
-            <p className="subtitle">
-              Imagen hasta 60kB. Haga click arriba para seleccionar la imagen.
-            </p>
-            <p className="subtitle">
-              Si su imagen es más pesada, asegúrese de achicarla, de otro modo
-              el reporte NO se realizará. Hágalo en segundos con <span> </span>
-              <a href="https://www.achicarimagenes.com.ar/" target="_blank">
-                esta web
-              </a>
-            </p>
-            <div id="buttonImg">
-              <PrimaryButton> Agregar/Modificar foto</PrimaryButton>
-            </div>
+            <Dropzone initPreview={petData?.pictureURL} />
           </label>
         </div>
 
