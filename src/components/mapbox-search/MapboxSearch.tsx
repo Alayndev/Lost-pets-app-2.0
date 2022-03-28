@@ -37,9 +37,11 @@ function MapboxSeach(props: MapBoxSearchProps) {
   const userLoc = getLocalStorageItem("userLoc");
   console.log(userLoc, "userLoc");
 
-  // Inicializamos el mapa con la ubicacion de la Pet si es para Editar o con la ubicacion del User si es para Reportar
+  const userLocOrBA = userLoc ? userLoc : [-58.4370894, -34.6075682];
+
+  // Inicializamos el mapa con la ubicacion de la Pet si es para Editar o con la ubicacion del User si nos la dio si es para Reportar
   const initialCoordsValues =
-    props.lat && props.lng ? [props.lng, props.lat] : userLoc;
+    props.lat && props.lng ? [props.lng, props.lat] : userLocOrBA;
 
   console.log(initialCoordsValues, "initialCoordsValues");
 

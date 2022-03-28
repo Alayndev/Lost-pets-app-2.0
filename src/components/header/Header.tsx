@@ -14,13 +14,14 @@ import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
 import { getLocalStorageItem } from "hooks/useLocalStorage";
+import { setLSItem } from "hooks/useUserPets";
 
 const Header = () => {
   const userToken = getLocalStorageItem("token");
 
-  const userEmail = getLocalStorageItem("email");
-
-  const session = !userToken ? "Iniciar Sesión" : userEmail;
+  const session = !userToken ? "Iniciar Sesión" : "Cerrar Sesión";
+  {
+  }
 
   const pages = [
     "Mis datos",
@@ -45,11 +46,7 @@ const Header = () => {
 
     console.log(page, "page");
 
-    const userToken = localStorage.getItem("token");
-
-    console.log(userToken, "userToken");
-
-    if (userToken === "null") {
+    if (userToken === null) {
       navigate("/login", { replace: true });
     } else if (page) {
       page === "Mis datos" ? navigate("/user-data", { replace: true }) : null;
@@ -63,6 +60,12 @@ const Header = () => {
         : null;
 
       page === "Iniciar Sesión" ? navigate("/login", { replace: true }) : null;
+
+      if (page === "Cerrar Sesión") {
+        setLSItem("token", null);
+        setLSItem("email", null);
+        navigate("/", { replace: true });
+      }
     }
   };
 
@@ -137,6 +140,3 @@ const Header = () => {
   );
 };
 export { Header };
-function getLocalStorage(arg0: string) {
-  throw new Error("Function not implemented.");
-}

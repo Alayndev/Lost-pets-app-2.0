@@ -15,9 +15,6 @@ function Home() {
     setShowButton(false);
   };
 
-  useLocalStorage("email", null);
-  useLocalStorage("token", null); // Lo inicializamos como null para poder hacer el router en el Header, dirigiendo siempre a /login al no tener un email ingresado
-
   return (
     <>
       {showButton ? (
