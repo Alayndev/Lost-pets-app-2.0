@@ -15,13 +15,14 @@ import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
 import { getLocalStorageItem } from "hooks/useLocalStorage";
 import { setLSItem } from "hooks/useUserPets";
+import { tokenState } from "hooks/useCreateOrFindUser";
+import { emailState } from "hooks/useCheckUser";
+import { useRecoilState } from "recoil";
 
 const Header = () => {
   const userToken = getLocalStorageItem("token");
 
   const session = !userToken ? "Iniciar Sesión" : "Cerrar Sesión";
-  {
-  }
 
   const pages = [
     "Mis datos",
@@ -29,6 +30,9 @@ const Header = () => {
     "Reportar mascota",
     session,
   ];
+
+  const [token, setToken] = useRecoilState(tokenState);
+  const [email, setEmail] = useRecoilState(emailState);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -64,6 +68,8 @@ const Header = () => {
       if (page === "Cerrar Sesión") {
         setLSItem("token", null);
         setLSItem("email", null);
+        setToken(null);
+        setEmail(null);
         navigate("/", { replace: true });
       }
     }
