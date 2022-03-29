@@ -6,6 +6,7 @@ import { petLngState, petLatState, setLSItem } from "hooks/useUserPets";
 import { Alert } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { getLocalStorageItem } from "hooks/useLocalStorage";
+import { MapboxButton } from "ui/buttons";
 
 // Función básica: Setiar lat y lng en LS/Atom para hacer llamadas a 2 endpoints con esos valores - HECHO
 const Map = ReactMapboxGl({
@@ -131,9 +132,9 @@ function MapboxSeach(props: MapBoxSearchProps) {
           style={boxStyles}
           required
         />
-        <button style={boxStyles} onClick={search}>
-          Buscar
-        </button>
+        <div onClick={search}>
+          <MapboxButton>Buscar</MapboxButton>
+        </div>
       </div>
     </div>
   );

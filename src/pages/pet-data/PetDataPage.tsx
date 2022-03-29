@@ -7,6 +7,8 @@ import { Dropzone } from "components/dropzone/Dropzone";
 import { createPet, editPet } from "hooks/useEditOrReportPet";
 import { Alert } from "@mui/material";
 
+// * Probar funcionamiento de la page y ver que falta. Comparar con dwf-m7
+
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
   const [petData, setPetData] = useRecoilState(petDataState);
@@ -14,6 +16,7 @@ function PetDataPage() {
 
   const reportOrEdit = petData ? <span>Editar</span> : <span>Reportar</span>;
 
+  // Componentizar en  PetDataPageForm, de acá hacia abajo
   const [formData, setFormData] = useState({});
 
   // Swal
@@ -53,6 +56,7 @@ function PetDataPage() {
       // Swal
       if (res) {
         setPetEdited(true);
+        setPetData(null); // Vuelvo a null para poder editar una pet y luego reportar una nueva pet
       } else if (!res) {
         setPetEditedError(true);
       }
@@ -71,19 +75,13 @@ function PetDataPage() {
       console.log(res, "res createPet() en pet-data page 134");
 
       // Swal para no llenar de ternarios
-      if (res.petCreated === false) {
-        console.log(
-          "Este reporte ya existe. Asegúrese de completar los campos correctamente."
-        );
-      }
-      if (res.message) {
-        console.log(
-          res.message,
-          "El user tiene que completar todos los campos"
-        );
-      } else {
+      if (res) {
         console.log(
           "Su mascota ha sido reportada correctamente. Este atento a su casilla de correo, inclusive al spam, ya que por allí le llegarán los reportes de su mascota."
+        );
+      } else if (!res) {
+        console.log(
+          "El user tiene que completar todos los campos O el reporte YA EXISTE"
         );
       }
     }

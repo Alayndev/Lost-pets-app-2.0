@@ -20,17 +20,15 @@ type dropProps = {
 
 export function Dropzone(props: dropProps) {
   const { initPreview } = props;
-  const [preview, setPreview] = useState(
+
+  console.log(props, "props Dropzone");
+
+  const [preview, setPreview]: any = useState(
     initPreview
       ? initPreview
       : "https://lost-pet-finder-app.herokuapp.com/no-img.09beee79.png"
   );
   const [dropAtom, setDropAtom] = useDropzoneAtom();
-
-  useEffect(() => {
-    // actualiza el preview de la imagen
-    if (dropAtom.dropImage) setPreview(dropAtom.dropImage);
-  }, [dropAtom.dropImage]);
 
   const { getRootProps, open } = useDropzone({
     accept: "image/*",
@@ -38,6 +36,11 @@ export function Dropzone(props: dropProps) {
     onDrop: (acceptedFiles) => {
       const reader: FileReader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
+        console.log(e.target.result, "dataURL Dropzone");
+
+        // Actualizamos la view para que el user vea la imagen elegida
+        setPreview(e.target.result);
+
         // Guardarmos la dataURL en Atom/LS
         setLSItem("dataURL", e.target.result);
         setDropAtom({ dropImage: e.target.result });

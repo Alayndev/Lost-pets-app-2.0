@@ -25,4 +25,12 @@ function DropzoneButton(props: { children: any }) {
   );
 }
 
-export { PrimaryButton, SecondaryButton, DropzoneButton };
+function MapboxButton(props: { children: any }) {
+  return (
+    <>
+      <div className={css.primaryButton}>{props.children}</div>
+    </>
+  );
+}
+
+export { PrimaryButton, SecondaryButton, DropzoneButton, MapboxButton };

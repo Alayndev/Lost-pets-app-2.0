@@ -81,7 +81,21 @@ const createPet = async ({ fullName, loc, description }) => {
 
   console.log(petCreated, "res API createPet()");
 
-  return petCreated;
+  if (petCreated.petCreated === false) {
+    console.log("Este reporte ya existe");
+    return false;
+  } else if (petCreated.message) {
+    console.log(
+      petCreated.message,
+      "El user tiene que completar todos los campos"
+    );
+    return false;
+  } else {
+    console.log(
+      "Su mascota ha sido reportada correctamente. Este atento a su casilla de correo, inclusive al spam, ya que por allí le llegarán los reportes de su mascota."
+    );
+    return true;
+  }
 };
 
 export { editPet, createPet };
