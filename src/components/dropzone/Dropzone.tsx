@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { PrimaryButton } from "ui/buttons";
+import { DropzoneButton } from "ui/buttons";
 import { useDropzoneAtom } from "hooks/useDropzone";
 import { setLSItem } from "hooks/useUserPets";
 
@@ -32,8 +32,9 @@ export function Dropzone(props: dropProps) {
     if (dropAtom.dropImage) setPreview(dropAtom.dropImage);
   }, [dropAtom.dropImage]);
 
-  const { getRootProps } = useDropzone({
+  const { getRootProps, open } = useDropzone({
     accept: "image/*",
+    noClick: true,
     onDrop: (acceptedFiles) => {
       const reader: FileReader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
@@ -47,9 +48,11 @@ export function Dropzone(props: dropProps) {
 
   return (
     <div {...getRootProps()}>
-      <img src={preview} style={styleBox} />
+      <img src={preview} style={styleBox} onClick={open} />
 
-      <PrimaryButton>Agregar/cambiar imagen</PrimaryButton>
+      <div onClick={open}>
+        <DropzoneButton>Agregar/cambiar imagen</DropzoneButton>
+      </div>
     </div>
   );
 }

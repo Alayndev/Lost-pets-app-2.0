@@ -17,4 +17,12 @@ function SecondaryButton(props: { children: any }) {
   );
 }
 
-export { PrimaryButton, SecondaryButton };
+function DropzoneButton(props: { children: any }) {
+  return (
+    <>
+      <div className={css.primaryButton}>{props.children}</div>
+    </>
+  );
+}
+
+export { PrimaryButton, SecondaryButton, DropzoneButton };

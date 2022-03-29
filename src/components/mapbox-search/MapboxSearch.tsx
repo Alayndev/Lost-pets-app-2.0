@@ -129,6 +129,7 @@ function MapboxSeach(props: MapBoxSearchProps) {
           onKeyDown={keydownInputHandler}
           defaultValue={query}
           style={boxStyles}
+          required
         />
         <button style={boxStyles} onClick={search}>
           Buscar

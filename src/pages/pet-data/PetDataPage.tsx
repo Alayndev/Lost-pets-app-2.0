@@ -16,10 +16,10 @@ function PetDataPage() {
 
   const [formData, setFormData] = useState({});
 
+  // Swal
   const [petEdited, setPetEdited] = useState(false);
   const [petEditedError, setPetEditedError] = useState(false);
 
-  // ! Problema: Toma el submit de Mapbox - Cambio la imagen de Dropzone y tambien toma el submit. Dropzone ademas se abre dos veces si haces click, una cagada. USAR BUTTON AGREGAR/EDITAR. Además al buscar con Mapbox (button o enter) se abre Dropzone
   const submitHandler = async (e) => {
     e.preventDefault();
     const allData = {
@@ -29,15 +29,19 @@ function PetDataPage() {
     console.log(allData, "allData");
 
     // API
+    const fullName: string = e.target.name.value;
+    const loc: string = e.target.geoloc.value;
+    const description: string = e.target.description.value;
+
     if (petData) {
       // Editar Pet
       console.log("Editar");
 
       const editPetData = {
         id: petData.id,
-        fullName: e.target.name.value,
-        loc: e.target.geoloc.value,
-        description: e.target.description.value,
+        fullName,
+        loc,
+        description,
       };
 
       console.log(editPetData, "editPetData para la API");
@@ -46,6 +50,7 @@ function PetDataPage() {
 
       console.log(res, "res editPet() en pet-data page");
 
+      // Swal
       if (res) {
         setPetEdited(true);
       } else if (!res) {
@@ -56,18 +61,25 @@ function PetDataPage() {
       console.log("REPORTAR");
 
       const createPetReport = {
-        fullName: e.target.name.value,
-        loc: e.target.geoloc.value,
-        description: e.target.description.value,
+        fullName,
+        loc,
+        description,
       };
 
       const res = await createPet(createPetReport);
 
       console.log(res, "res createPet() en pet-data page 134");
 
+      // Swal para no llenar de ternarios
       if (res.petCreated === false) {
         console.log(
           "Este reporte ya existe. Asegúrese de completar los campos correctamente."
+        );
+      }
+      if (res.message) {
+        console.log(
+          res.message,
+          "El user tiene que completar todos los campos"
         );
       } else {
         console.log(
