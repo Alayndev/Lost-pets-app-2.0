@@ -7,17 +7,13 @@ import { Alert } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { getLocalStorageItem } from "hooks/useLocalStorage";
 import { MapboxButton } from "ui/buttons";
+import css from "./mapboxSearch.css";
 
 // Función básica: Setiar lat y lng en LS/Atom para hacer llamadas a 2 endpoints con esos valores - HECHO
 const Map = ReactMapboxGl({
   accessToken:
     "pk.eyJ1IjoiYWxheW5kZXYiLCJhIjoiY2t6c3J1OWRuM3VzMTJvcXI1bWlqeXh2ciJ9.DmF6gsJAMsSyaFkLWatPfA",
 });
-
-const boxStyles = {
-  padding: 10,
-  fontSize: 20,
-};
 
 type MapBoxSearchProps = {
   onChange?: (any) => any;
@@ -26,7 +22,7 @@ type MapBoxSearchProps = {
   loc?: string;
 };
 
-function MapboxSeach(props: MapBoxSearchProps) {
+function MapboxSearch(props: MapBoxSearchProps) {
   const { onChange } = props;
 
   const [query, setQuery] = useState(props.loc);
@@ -122,14 +118,13 @@ function MapboxSeach(props: MapBoxSearchProps) {
           <Feature coordinates={coords} />
         </Layer>
       </Map>
-      <div>
+      <div className={css.inputAndButtonCont}>
         <input
           type="text"
           name="geoloc"
           onChange={inputChangeHandler}
           onKeyDown={keydownInputHandler}
           defaultValue={query}
-          style={boxStyles}
           required
         />
         <div onClick={search}>
@@ -140,7 +135,4 @@ function MapboxSeach(props: MapBoxSearchProps) {
   );
 }
 
-export { MapboxSeach };
-function then(arg0: (r: any) => any) {
-  throw new Error("Function not implemented.");
-}
+export { MapboxSearch };

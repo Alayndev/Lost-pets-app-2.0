@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { petDataState } from "hooks/useUserPets";
 import { PrimaryButton } from "ui/buttons";
-import { MapboxSeach } from "components/mapbox-search/MapboxSearch";
+import { MapboxSearch } from "components/mapbox-search/MapboxSearch";
 import { Dropzone } from "components/dropzone/Dropzone";
 import { createPet, editPet } from "hooks/useEditOrReportPet";
 import { Alert } from "@mui/material";
+import css from "./petDataPage.css";
 
-// * Probar funcionamiento de la page y ver que falta. Comparar con dwf-m7
+// * Probar funcionamiento de la page y ver que falta. Comparar con dwf-m7. Probar primero funcionamiento Reportar y luego funcionamiento editar
+
+// ! Problema: Editar: Mapbox al estar todos los campos completos y hacer enter NO busca la NUEVA ubicacion pero SI hace submit y llamado a la API para editar
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
@@ -56,8 +59,11 @@ function PetDataPage() {
       // Swal
       if (res) {
         setPetEdited(true);
+        console.log("Pet editada");
+
         setPetData(null); // Vuelvo a null para poder editar una pet y luego reportar una nueva pet
       } else if (!res) {
+        console.log("Pet NO editada");
         setPetEditedError(true);
       }
     } else if (!petData) {
@@ -101,11 +107,11 @@ function PetDataPage() {
 
   return (
     <>
-      <h1>{reportOrEdit} mascota perdida</h1>
+      <h1 className={css.title}>{reportOrEdit} mascota perdida</h1>
 
       <form className="pet-data form card" onSubmit={submitHandler}>
         {/* Dropzone */}
-        <div className="sub-container">
+        <div className={css.subContainer}>
           <label className="label">
             <div>NOMBRE: </div>
             <input
@@ -128,7 +134,7 @@ function PetDataPage() {
             />
           </label>
 
-          <p className="subtitle">
+          <p className={css.subtitle}>
             La imagen debe pesar hasta 60kB. Si su imagen es más pesada,
             asegúrese de achicarla, de otro modo el reporte NO se realizará.
             Hágalo en segundos con <span> </span>
@@ -144,15 +150,15 @@ function PetDataPage() {
         </div>
 
         {/* MapBox */}
-        <label className="label sub-container">
+        <label className={css.subContainer}>
           <span>UBICACION</span>
-          <p className="subtitle">
+          <p className={css.subtitle}>
             BUSCÁ UN PUNTO DE REFERENCIA PARA REPORTAR A TU MASCOTA. PUEDE SER
             UNA DIRECCIÓN, UN BARRIO O UNA CIUDAD
           </p>
 
           {/* MapBox */}
-          <MapboxSeach
+          <MapboxSearch
             lat={petData?.lat}
             lng={petData?.lng}
             loc={petData?.loc}
