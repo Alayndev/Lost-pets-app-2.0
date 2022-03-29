@@ -4,28 +4,82 @@ import { petDataState } from "hooks/useUserPets";
 import { PrimaryButton } from "ui/buttons";
 import { MapboxSeach } from "components/mapbox-search/MapboxSearch";
 import { Dropzone } from "components/dropzone/Dropzone";
+import { createPet, editPet } from "hooks/useEditOrReportPet";
+import { Alert } from "@mui/material";
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
-  // petData
   const [petData, setPetData] = useRecoilState(petDataState);
   console.log(petData, "petData Atom");
 
   const reportOrEdit = petData ? <span>Editar</span> : <span>Reportar</span>;
 
-  // Biolerplate APX Mapbox
   const [formData, setFormData] = useState({});
 
-  function submitHandler(e) {
+  const [petEdited, setPetEdited] = useState(false);
+  const [petEditedError, setPetEditedError] = useState(false);
+
+  // ! Problema: Toma el submit de Mapbox - Cambio la imagen de Dropzone y tambien toma el submit. Dropzone ademas se abre dos veces si haces click, una cagada. USAR BUTTON AGREGAR/EDITAR. Además al buscar con Mapbox (button o enter) se abre Dropzone
+  const submitHandler = async (e) => {
     e.preventDefault();
     const allData = {
       formData,
       texto: e.target.geoloc.value,
     };
     console.log(allData, "allData");
-  }
 
-  function handleMapboxChange(data) {
+    // API
+    if (petData) {
+      // Editar Pet
+      console.log("Editar");
+
+      const editPetData = {
+        id: petData.id,
+        fullName: e.target.name.value,
+        loc: e.target.geoloc.value,
+        description: e.target.description.value,
+      };
+
+      console.log(editPetData, "editPetData para la API");
+
+      const res = await editPet(editPetData);
+
+      console.log(res, "res editPet() en pet-data page");
+
+      if (res) {
+        setPetEdited(true);
+      } else if (!res) {
+        setPetEditedError(true);
+      }
+    } else if (!petData) {
+      // Reportar Pet
+      console.log("REPORTAR");
+
+      const createPetReport = {
+        fullName: e.target.name.value,
+        loc: e.target.geoloc.value,
+        description: e.target.description.value,
+      };
+
+      const res = await createPet(createPetReport);
+
+      console.log(res, "res createPet() en pet-data page 134");
+
+      if (res.petCreated === false) {
+        console.log(
+          "Este reporte ya existe. Asegúrese de completar los campos correctamente."
+        );
+      } else {
+        console.log(
+          "Su mascota ha sido reportada correctamente. Este atento a su casilla de correo, inclusive al spam, ya que por allí le llegarán los reportes de su mascota."
+        );
+      }
+    }
+  };
+
+  const handleMapboxChange = (data) => {
+    setPetEditedError(false);
+
     // voy agregando data al state interno del form
     setFormData({
       ...formData,
@@ -33,9 +87,7 @@ function PetDataPage() {
     });
 
     console.log(formData, "formData");
-  }
-
-  // Situacion Actual: ya tengo en Atom/LS dataURL (Dropzone) y petLngLat (Mapbox). Ahora hacer llamdas a la API dependiendo si voy a Editar o Reportar (esto en submitHandler). if(petData) { Editar } else { Reportar }. Guiarme con MyDataForm.tsx
+  };
 
   return (
     <>
@@ -51,6 +103,7 @@ function PetDataPage() {
               type="text"
               name="name"
               className="is-success"
+              required
             />
           </label>
 
@@ -61,6 +114,7 @@ function PetDataPage() {
               type="text"
               name="description"
               className="is-success"
+              required
             />
           </label>
 
@@ -95,9 +149,17 @@ function PetDataPage() {
             onChange={handleMapboxChange}
           />
 
-          <input type="text" name="geoloc" className="search-geoloc" />
-
           <span className="loader-container"> </span>
+
+          {petEdited ? (
+            <Alert severity="success"> Mascota editada correctamente </Alert>
+          ) : null}
+
+          {petEditedError ? (
+            <Alert severity="error">
+              Su mascota NO ha sido actualizada. Por favor, intente nuevamente
+            </Alert>
+          ) : null}
 
           <div className="submit">
             <PrimaryButton>{reportOrEdit}</PrimaryButton>

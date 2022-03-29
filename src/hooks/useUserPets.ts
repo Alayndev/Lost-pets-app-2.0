@@ -37,8 +37,13 @@ const pullUserPets = async () => {
 };
 
 // pet-data
-export const petLngLatState = atom({
-  key: "petLngLatState",
+export const petLngState = atom({
+  key: "petLatState",
+  default: null,
+});
+
+export const petLatState = atom({
+  key: "petLatState",
   default: null,
 });
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReactMapboxGl, { Layer, Feature, Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { petLngLatState, setLSItem } from "hooks/useUserPets";
+import { petLngState, petLatState, setLSItem } from "hooks/useUserPets";
 
 import { Alert } from "@mui/material";
 import { useRecoilState } from "recoil";
@@ -48,28 +48,36 @@ function MapboxSeach(props: MapBoxSearchProps) {
   const initialCoords: any = initialCoordsValues;
   const [coords, setCoords] = useState(initialCoords);
 
-  const [petLngLat, setPetLgnLat] = useRecoilState(petLngLatState);
+  const [petLng, setPetLgn] = useRecoilState(petLngState);
+  const [petLat, setPetLat] = useRecoilState(petLatState);
 
   const [alert, setAlert] = useState(false);
 
   async function search() {
     const data = await fetch(
-      `https://us1.locationiq.com/v1/search.php?key=pk.bf4604bc2b3ea328e732de26a4387fa9&q=${query}&format=json`
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+        query +
+        ".json?country=ar&types=place%2Caddress%2Clocality%2Cneighborhood%2Cregion%2Cdistrict&postcode%2Cpoi&autocomplete=true&fuzzyMatch=true&routing=true&access_token=" +
+        "pk.eyJ1IjoiYWxheW5kZXYiLCJhIjoiY2t6c3J1OWRuM3VzMTJvcXI1bWlqeXh2ciJ9.DmF6gsJAMsSyaFkLWatPfA"
     ).then((r) => r.json());
-    console.log(data, "data");
 
-    if (data.error) {
-      setAlert(true);
-    }
+    console.log(data.features[0], "data");
 
-    const lat = parseFloat(data[0].lat);
-    const lon = parseFloat(data[0].lon);
+    // TODO: NO funciona con esta API limitada a Arg., hay que encontrar la manera de que si el user ingresa un lugar y Mapbox NO obtiene resultados, NO se rompa la page y le avise al user. Un alert() quizá o Swal libreria
+    // if (data.error) {
+    //   setAlert(true);
+    // }
+
+    const lon = parseFloat(data.features["0"]?.geometry.coordinates[0]);
+    const lat = parseFloat(data.features["0"]?.geometry.coordinates[1]);
     const newCoords = [lon, lat];
 
     // Seteamos Lng y Lat en Atom/LS
     setCoords(newCoords);
-    setPetLgnLat(newCoords);
-    setLSItem("petLngLat", newCoords);
+    setPetLgn(lon);
+    setPetLat(lat);
+    setLSItem("petLng", lon);
+    setLSItem("petLat", lat);
 
     // lo "tiro" hacia arriba para que reciban las coordenadas desde "afuera"
     if (onChange) {
@@ -116,6 +124,7 @@ function MapboxSeach(props: MapBoxSearchProps) {
       <div>
         <input
           type="text"
+          name="geoloc"
           onChange={inputChangeHandler}
           onKeyDown={keydownInputHandler}
           defaultValue={query}
@@ -130,3 +139,6 @@ function MapboxSeach(props: MapBoxSearchProps) {
 }
 
 export { MapboxSeach };
+function then(arg0: (r: any) => any) {
+  throw new Error("Function not implemented.");
+}
