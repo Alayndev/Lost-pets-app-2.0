@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { petDataState } from "hooks/useUserPets";
 import { PrimaryButton } from "ui/buttons";
 import { MapboxSearch } from "components/mapbox-search/MapboxSearch";
 import { Dropzone } from "components/dropzone/Dropzone";
 import { createPet, editPet } from "hooks/useEditOrReportPet";
-import { Alert } from "@mui/material";
 import css from "./petDataPage.css";
+import Swal from "sweetalert2";
 
 // * Probar funcionamiento de la page y ver que falta. Comparar con dwf-m7. Probar primero funcionamiento Reportar y luego funcionamiento editar
 
-// ! Problema: Editar: Mapbox al estar todos los campos completos y hacer enter NO busca la NUEVA ubicacion pero SI hace submit y llamado a la API para editar
+// Flujo reporte: FUNCIONA DE 10
+
+// Flujo cancelar: Funciona, NO saca del input Mapbox pero ya fue
+
+// Flujo editar: FUNCIONA DE 10
+
+// Flujo reportar como encontrado:
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
@@ -21,10 +27,6 @@ function PetDataPage() {
 
   // Componentizar en  PetDataPageForm, de acá hacia abajo
   const [formData, setFormData] = useState({});
-
-  // Swal
-  const [petEdited, setPetEdited] = useState(false);
-  const [petEditedError, setPetEditedError] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -58,13 +60,16 @@ function PetDataPage() {
 
       // Swal
       if (res) {
-        setPetEdited(true);
+        Swal.fire({
+          icon: "success",
+          title: "Mascota editada correctamente",
+        });
         console.log("Pet editada");
-
-        setPetData(null); // Vuelvo a null para poder editar una pet y luego reportar una nueva pet
       } else if (!res) {
-        console.log("Pet NO editada");
-        setPetEditedError(true);
+        Swal.fire({
+          title:
+            "Su mascota NO ha sido actualizada. Por favor, intente nuevamente",
+        });
       }
     } else if (!petData) {
       // Reportar Pet
@@ -80,22 +85,24 @@ function PetDataPage() {
 
       console.log(res, "res createPet() en pet-data page 134");
 
-      // Swal para no llenar de ternarios
-      if (res) {
-        console.log(
-          "Su mascota ha sido reportada correctamente. Este atento a su casilla de correo, inclusive al spam, ya que por allí le llegarán los reportes de su mascota."
-        );
-      } else if (!res) {
-        console.log(
-          "El user tiene que completar todos los campos O el reporte YA EXISTE"
-        );
+      if (res.success) {
+        Swal.fire({
+          icon: "success",
+          title: res.success,
+        });
+      } else if (res.inputsIncompleted) {
+        Swal.fire({
+          title: res.inputsIncompleted,
+        });
+      } else if (res.error) {
+        Swal.fire({
+          title: res.error,
+        });
       }
     }
   };
 
   const handleMapboxChange = (data) => {
-    setPetEditedError(false);
-
     // voy agregando data al state interno del form
     setFormData({
       ...formData,
@@ -105,11 +112,38 @@ function PetDataPage() {
     console.log(formData, "formData");
   };
 
+  // Flujo Cancelar o Reportar como encontrado:
+  const formEl = useRef(null);
+
+  const handleClick = () => {
+    if (petData) {
+      // Reportar como encontrado
+      
+    } else if (!petData) {
+      // Cancelar
+      //limpiar formulario
+      console.log(formEl.current, "form para cacelar");
+
+      formEl.current.reset();
+    }
+  };
+
+  // Para que al apretar enter NO haga submit, sino que el submit lo decida con el button ya sea Editar o Reportar
+  const keyPressInputHandler = (e) => {
+    if (e.key == "Enter") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <h1 className={css.title}>{reportOrEdit} mascota perdida</h1>
 
-      <form className="pet-data form card" onSubmit={submitHandler}>
+      <form
+        ref={formEl}
+        className="pet-data form card"
+        onSubmit={submitHandler}
+      >
         {/* Dropzone */}
         <div className={css.subContainer}>
           <label className="label">
@@ -119,6 +153,7 @@ function PetDataPage() {
               type="text"
               name="name"
               className="is-success"
+              onKeyPress={keyPressInputHandler}
               required
             />
           </label>
@@ -130,6 +165,7 @@ function PetDataPage() {
               type="text"
               name="description"
               className="is-success"
+              onKeyPress={keyPressInputHandler}
               required
             />
           </label>
@@ -150,7 +186,7 @@ function PetDataPage() {
         </div>
 
         {/* MapBox */}
-        <label className={css.subContainer}>
+        <div className={css.subContainer}>
           <span>UBICACION</span>
           <p className={css.subtitle}>
             BUSCÁ UN PUNTO DE REFERENCIA PARA REPORTAR A TU MASCOTA. PUEDE SER
@@ -165,28 +201,16 @@ function PetDataPage() {
             onChange={handleMapboxChange}
           />
 
-          <span className="loader-container"> </span>
-
-          {petEdited ? (
-            <Alert severity="success"> Mascota editada correctamente </Alert>
-          ) : null}
-
-          {petEditedError ? (
-            <Alert severity="error">
-              Su mascota NO ha sido actualizada. Por favor, intente nuevamente
-            </Alert>
-          ) : null}
-
           <div className="submit">
             <PrimaryButton>{reportOrEdit}</PrimaryButton>
           </div>
 
-          <div className={petData ? "finded" : "cancel"}>
+          <div onClick={handleClick} className={petData ? "finded" : "cancel"}>
             <PrimaryButton>
               {petData ? "Reportar como encontrado" : "Cancelar"}
             </PrimaryButton>
           </div>
-        </label>
+        </div>
       </form>
     </>
   );

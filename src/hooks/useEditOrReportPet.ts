@@ -82,19 +82,16 @@ const createPet = async ({ fullName, loc, description }) => {
   console.log(petCreated, "res API createPet()");
 
   if (petCreated.petCreated === false) {
-    console.log("Este reporte ya existe");
-    return false;
+    const error = "Este reporte ya existe";
+    return { error };
   } else if (petCreated.message) {
-    console.log(
-      petCreated.message,
-      "El user tiene que completar todos los campos"
-    );
-    return false;
+    const inputsIncompleted =
+      "El user tiene que completar todos los campos, incluyendo la imagen de la mascota";
+    return { inputsIncompleted };
   } else {
-    console.log(
-      "Su mascota ha sido reportada correctamente. Este atento a su casilla de correo, inclusive al spam, ya que por allí le llegarán los reportes de su mascota."
-    );
-    return true;
+    const success =
+      "Su mascota ha sido reportada correctamente. Este atento a su casilla de correo, inclusive al spam, ya que por allí le llegarán los reportes de su mascota.";
+    return { success };
   }
 };
 

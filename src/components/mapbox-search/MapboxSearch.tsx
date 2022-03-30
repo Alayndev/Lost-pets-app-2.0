@@ -70,6 +70,8 @@ function MapboxSearch(props: MapBoxSearchProps) {
     const newCoords = [lon, lat];
 
     // Seteamos Lng y Lat en Atom/LS
+    console.log(newCoords, "newCoords");
+
     setCoords(newCoords);
     setPetLgn(lon);
     setPetLat(lat);
@@ -90,15 +92,17 @@ function MapboxSearch(props: MapBoxSearchProps) {
     setQuery(e.target.value);
   }
 
-  function keydownInputHandler(e) {
+  function keyPressInputHandler(e) {
     // si no es con form, tengo que agregar esto
     if (e.key == "Enter") {
+      e.preventDefault();
+
       search();
     }
   }
 
   return (
-    <div>
+    <>
       {alert ? (
         <Alert severity="error"> El sitio ingresado NO existe </Alert>
       ) : null}
@@ -118,20 +122,21 @@ function MapboxSearch(props: MapBoxSearchProps) {
           <Feature coordinates={coords} />
         </Layer>
       </Map>
-      <div className={css.inputAndButtonCont}>
+
+      <label className={css.inputAndButtonCont}>
         <input
           type="text"
           name="geoloc"
           onChange={inputChangeHandler}
-          onKeyDown={keydownInputHandler}
+          onKeyPress={keyPressInputHandler}
           defaultValue={query}
           required
         />
         <div onClick={search}>
           <MapboxButton>Buscar</MapboxButton>
         </div>
-      </div>
-    </div>
+      </label>
+    </>
   );
 }
 
