@@ -1,22 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { petDataState } from "hooks/useUserPets";
+import { petDataState, setLSItem } from "hooks/useUserPets";
 import { PrimaryButton } from "ui/buttons";
 import { MapboxSearch } from "components/mapbox-search/MapboxSearch";
 import { Dropzone } from "components/dropzone/Dropzone";
-import { createPet, editPet } from "hooks/useEditOrReportPet";
+import { createPet, editPet, petFound } from "hooks/useEditOrReportPet";
 import css from "./petDataPage.css";
 import Swal from "sweetalert2";
-
-// * Probar funcionamiento de la page y ver que falta. Comparar con dwf-m7. Probar primero funcionamiento Reportar y luego funcionamiento editar
-
-// Flujo reporte: FUNCIONA DE 10
-
-// Flujo cancelar: Funciona, NO saca del input Mapbox pero ya fue
-
-// Flujo editar: FUNCIONA DE 10
-
-// Flujo reportar como encontrado:
+import { useNavigate } from "react-router-dom";
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {
@@ -27,6 +18,8 @@ function PetDataPage() {
 
   // Componentizar en  PetDataPageForm, de acá hacia abajo
   const [formData, setFormData] = useState({});
+
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -64,7 +57,10 @@ function PetDataPage() {
           icon: "success",
           title: "Mascota editada correctamente",
         });
-        console.log("Pet editada");
+
+        navigate("/user-pets", { replace: true });
+
+        setPetData(null);
       } else if (!res) {
         Swal.fire({
           title:
@@ -90,6 +86,8 @@ function PetDataPage() {
           icon: "success",
           title: res.success,
         });
+
+        navigate("/user-pets", { replace: true });
       } else if (res.inputsIncompleted) {
         Swal.fire({
           title: res.inputsIncompleted,
@@ -115,15 +113,31 @@ function PetDataPage() {
   // Flujo Cancelar o Reportar como encontrado:
   const formEl = useRef(null);
 
-  const handleClick = () => {
+  const handleClick = async (e) => {
+    e.preventDefault(); // Para que no suba al submit del form, submitHandler
+
     if (petData) {
       // Reportar como encontrado
-      
+
+      const res = await petFound(petData.id);
+      console.log(res, "res");
+
+      if (res) {
+        Swal.fire({
+          icon: "success",
+          title: "Usted ha encontrado a su mascota! Felicitaciones!",
+        });
+
+        navigate("/user-pets", { replace: true });
+
+        setPetData(null);
+      } else if (!res) {
+        Swal.fire({
+          title: "Esta mascota ya ha sido reportada como encontrada",
+        });
+      }
     } else if (!petData) {
       // Cancelar
-      //limpiar formulario
-      console.log(formEl.current, "form para cacelar");
-
       formEl.current.reset();
     }
   };

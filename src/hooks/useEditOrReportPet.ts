@@ -95,4 +95,25 @@ const createPet = async ({ fullName, loc, description }) => {
   }
 };
 
-export { editPet, createPet };
+const petFound = async (id) => {
+  const token = getLocalStorageItem("token");
+
+  const petFound = await (
+    await fetch(`https://lost-pet-finder-app.herokuapp.com/pets?petId=${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    })
+  ).json();
+
+  console.log(petFound, "petFound()");
+
+  if (petFound.algoliaPetDeleted?.taskID && petFound.petdeleted?.length === 1) {
+    return true;
+  } else if (petFound.error) {
+    return false;
+  }
+};
+
+export { editPet, createPet, petFound };
