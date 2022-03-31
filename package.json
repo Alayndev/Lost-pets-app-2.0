@@ -33,6 +33,7 @@
     "react-router-dom": "6",
     "recoil": "^0.6.1",
     "sweetalert2": "^11.4.8",
+    "sweetalert2-react-content": "^4.2.0",
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   }
 }

@@ -16,7 +16,7 @@ function PetDataPage() {
 
   const reportOrEdit = petData ? <span>Editar</span> : <span>Reportar</span>;
 
-  // Componentizar en  PetDataPageForm, de acá hacia abajo
+  // TODO: Componentizar en  PetDataPageForm, de acá hacia abajo
   const [formData, setFormData] = useState({});
 
   const navigate = useNavigate();
@@ -63,6 +63,7 @@ function PetDataPage() {
         setPetData(null);
       } else if (!res) {
         Swal.fire({
+          icon: "error",
           title:
             "Su mascota NO ha sido actualizada. Por favor, intente nuevamente",
         });
@@ -90,10 +91,12 @@ function PetDataPage() {
         navigate("/user-pets", { replace: true });
       } else if (res.inputsIncompleted) {
         Swal.fire({
+          icon: "error",
           title: res.inputsIncompleted,
         });
       } else if (res.error) {
         Swal.fire({
+          icon: "error",
           title: res.error,
         });
       }
@@ -133,6 +136,7 @@ function PetDataPage() {
         setPetData(null);
       } else if (!res) {
         Swal.fire({
+          icon: "error",
           title: "Esta mascota ya ha sido reportada como encontrada",
         });
       }
