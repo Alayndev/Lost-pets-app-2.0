@@ -1,0 +1,33 @@
+.title {
+  margin: 0 auto;
+  color: black;
+  text-align: center;
+}
+
+.report-pet__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 auto;
+  width: 287px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.report-pet__label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.report-pet__input {
+  height: 50px;
+  width: 90%;
+  max-width: 335px;
+  border-radius: 4px;
+  background: #ffffff;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+}
