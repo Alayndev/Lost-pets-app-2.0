@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { emailState } from "hooks/useCheckUser";
 import Alert from "@mui/material/Alert";
-import { useLocalStorage } from "hooks/useLocalStorage";
-import { createOrFindUser, tokenState } from "hooks/useCreateOrFindUser";
 import css from "./loginPasswordForm.css";
+import { createOrFindUser } from "lib/api";
+import { setLSItem } from "lib/localStorage";
+import { tokenState } from "lib/atoms";
 
 // Generar Token: Guardar Token para hacer validaciones en Atom y/o en Local Storage
 function LoginPasswordForm() {
@@ -33,12 +34,16 @@ function LoginPasswordForm() {
 
     response ? null : setCorrectPassword(false);
 
-    setToken(token);
+    if (token) {
+      setToken(token);
+    }
 
     response ? navigate("/user-data", { replace: true }) : null;
   };
 
-  useLocalStorage("token", token);
+  if (token) {
+    setLSItem("token", token);
+  }
 
   return (
     <>

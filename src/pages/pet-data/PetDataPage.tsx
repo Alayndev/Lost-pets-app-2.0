@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { petDataState, setLSItem } from "hooks/useUserPets";
 import { PrimaryButton } from "ui/buttons";
 import { MapboxSearch } from "components/mapbox-search/MapboxSearch";
 import { Dropzone } from "components/dropzone/Dropzone";
-import { createPet, editPet, petFound } from "hooks/useEditOrReportPet";
+import { createPet, editPet, petFound } from "lib/api";
 import css from "./petDataPage.css";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { petDataState } from "lib/atoms";
 
 // Dependiendo de si tenemos petData o no en localStorage vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataPage() {

@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
+import { atom, selector, useRecoilValue } from "recoil";
 
 export const emailState = atom({
   key: "emailState",

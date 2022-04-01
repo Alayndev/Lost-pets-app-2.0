@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { PetCard } from "components/pet-card/PetCard";
 import css from "./userPetsPage.css";
 import { useRecoilState } from "recoil";
-import { petDataState, pullUserPets, userPetsState } from "hooks/useUserPets";
 import { useNavigate } from "react-router-dom";
+import { pullUserPets } from "lib/api";
+import { petDataState, userPetsState } from "lib/atoms";
 
 // TODO: Abstraer de lógica a la Page (algo más si se puede)
 function UserPetsPage() {

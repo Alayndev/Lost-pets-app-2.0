@@ -1,11 +1,11 @@
 import React from "react";
-import { getLocalStorageItem } from "hooks/useLocalStorage";
-import { sendReport } from "hooks/useSendReport";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import css from "./reportModal.css";
 import { PrimaryButton } from "ui/buttons";
+import { sendReport } from "lib/api";
+import { getLocalStorageItem } from "lib/localStorage";
 
 function ReportModal({ pet, children }) {
   const navigate = useNavigate();

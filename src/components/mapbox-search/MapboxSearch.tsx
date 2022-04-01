@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import ReactMapboxGl, { Layer, Feature, Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { petLngState, petLatState, setLSItem } from "hooks/useUserPets";
 
 import { Alert } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { getLocalStorageItem } from "hooks/useLocalStorage";
 import { MapboxButton } from "ui/buttons";
 import css from "./mapboxSearch.css";
+import { getLocalStorageItem, setLSItem } from "lib/localStorage";
+import { petLatState, petLngState } from "lib/atoms";
 
 // Función básica: Setiar lat y lng en LS/Atom para hacer llamadas a 2 endpoints con esos valores - HECHO
 const Map = ReactMapboxGl({

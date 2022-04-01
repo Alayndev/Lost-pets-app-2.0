@@ -1,7 +1,7 @@
 import React from "react";
 import { MyDataForm } from "components/my-data-form/MyDataForm";
-import { getLocalStorageItem } from "hooks/useLocalStorage";
 import css from "./userData.css";
+import { getLocalStorageItem } from "lib/localStorage";
 
 function UserDataPage() {
   const tokenParsed = getLocalStorageItem("token");

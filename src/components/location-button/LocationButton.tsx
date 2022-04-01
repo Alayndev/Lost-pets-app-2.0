@@ -1,9 +1,9 @@
 import React from "react";
 import { PrimaryButton } from "ui/buttons";
-import css from "./locationButton.css";
 
-import { setPetsAround, pullPetsAround } from "hooks/usePets";
-import { setLSItem } from "hooks/useUserPets";
+import { setPetsAround } from "hooks/usePetsAround";
+import { pullPetsAround } from "lib/api";
+import { setLSItem } from "lib/localStorage";
 
 function LocationButton() {
   const setPets = setPetsAround();

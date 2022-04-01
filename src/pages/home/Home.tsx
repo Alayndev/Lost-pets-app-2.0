@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import css from "./home.css";
 import { LocationButton } from "components/location-button/LocationButton";
 import { PetCard } from "components/pet-card/PetCard";
-import { getPetsAround } from "hooks/usePets";
+import { getPetsAround } from "hooks/usePetsAround";
 import { ReportModal } from "components/report-modal/ReportModal";
 
 function Home() {

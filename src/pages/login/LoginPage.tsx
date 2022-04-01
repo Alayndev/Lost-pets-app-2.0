@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { emailState } from "hooks/useCheckUser";
 import { useCheckUser } from "hooks/useCheckUser";
-import { useLocalStorage } from "hooks/useLocalStorage";
+import { setLSItem } from "lib/localStorage";
 
 // ? Posible error linea 27
 function LoginPage() {
   const [emailStateValue, setEmailState] = useRecoilState(emailState);
   console.log(emailStateValue, "email inicial");
 
-  // Componentizar y llevar al componente 
+  // Componentizar y llevar al componente
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -21,7 +21,7 @@ function LoginPage() {
     setEmailState(email);
   };
 
-  useLocalStorage("email", emailStateValue);
+  setLSItem("email", emailStateValue);
 
   // Solamente esto dejar - O quizas tampoco
   const navigate = useNavigate();

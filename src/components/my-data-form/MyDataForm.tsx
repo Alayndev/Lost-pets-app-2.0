@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { createOrFindUser, tokenState } from "hooks/useCreateOrFindUser";
-import { getLocalStorageItem, useLocalStorage } from "hooks/useLocalStorage";
 import { useRecoilState } from "recoil";
 import { PrimaryButton } from "ui/buttons";
 import Alert from "@mui/material/Alert";
 import css from "./myDataForm.css";
+import { createOrFindUser } from "lib/api";
+import { getLocalStorageItem, setLSItem } from "lib/localStorage";
+import { tokenState } from "lib/atoms";
 
 type MyDataFormProps = {
   function: string; // update - signup
@@ -86,7 +87,7 @@ function MyDataForm(props: MyDataFormProps) {
     }
   };
 
-  useLocalStorage("token", token);
+  setLSItem("token", token);
 
   return (
     <>

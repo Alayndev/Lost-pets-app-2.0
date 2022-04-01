@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import css from "./loginPasswordPage.css";
 import { LoginPasswordForm } from "components/login-password-form/LoginPasswordForm";
 

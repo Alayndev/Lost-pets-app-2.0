@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { DropzoneButton } from "ui/buttons";
 import { useDropzoneAtom } from "hooks/useDropzone";
-import { setLSItem } from "hooks/useUserPets";
+import { setLSItem } from "lib/localStorage";
 
 const styleBox: any = {
   width: "333px",

@@ -13,11 +13,10 @@ import PetsIcon from "@mui/icons-material/Pets";
 
 import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
-import { getLocalStorageItem } from "hooks/useLocalStorage";
-import { setLSItem } from "hooks/useUserPets";
-import { tokenState } from "hooks/useCreateOrFindUser";
 import { emailState } from "hooks/useCheckUser";
 import { useRecoilState } from "recoil";
+import { getLocalStorageItem, setLSItem } from "lib/localStorage";
+import { tokenState } from "lib/atoms";
 
 const Header = () => {
   const userToken = getLocalStorageItem("token");
@@ -44,7 +43,7 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  // ! Router: Si jode con login comentar if de linea 45 a 47 y listo
+  // ! Router:
   const handleCloseNavMenu = (page?) => {
     setAnchorElNav(null);
 
