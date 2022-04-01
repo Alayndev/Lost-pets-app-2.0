@@ -17,6 +17,9 @@ import { emailState } from "hooks/useCheckUser";
 import { useRecoilState } from "recoil";
 import { getLocalStorageItem, setLSItem } from "lib/localStorage";
 import { tokenState } from "lib/atoms";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { PrimaryButton } from "ui/buttons";
 
 const Header = () => {
   const userToken = getLocalStorageItem("token");
@@ -36,6 +39,8 @@ const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
+
+  const MySwal = withReactContent(Swal);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -65,11 +70,38 @@ const Header = () => {
       page === "Iniciar Sesión" ? navigate("/login", { replace: true }) : null;
 
       if (page === "Cerrar Sesión") {
-        setLSItem("token", null);
-        setLSItem("email", null);
-        setToken(null);
-        setEmail(null);
-        navigate("/", { replace: true });
+        const handleLogOutClick = () => {
+          setLSItem("token", null);
+          setLSItem("email", null);
+          setToken(null);
+          setEmail(null);
+          navigate("/", { replace: true });
+
+          MySwal.fire({
+            icon: "success",
+
+            width: "345px",
+            position: "center",
+          });
+        };
+
+        MySwal.fire({
+          icon: "question",
+          title: (
+            <>
+              <p className={css.title}>¿DESEA CERRAR SESION?</p>
+              <div onClick={handleLogOutClick}>
+                <PrimaryButton> CERRAR SESION</PrimaryButton>
+              </div>
+            </>
+          ),
+          width: "345px",
+          position: "center",
+
+          showDenyButton: true,
+          denyButtonText: `Cancelar`,
+          showConfirmButton: false,
+        });
       }
     }
   };

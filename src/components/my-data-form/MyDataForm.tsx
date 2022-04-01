@@ -6,6 +6,7 @@ import css from "./myDataForm.css";
 import { createOrFindUser } from "lib/api";
 import { getLocalStorageItem, setLSItem } from "lib/localStorage";
 import { tokenState } from "lib/atoms";
+import Swal from "sweetalert2";
 
 type MyDataFormProps = {
   function: string; // update - signup
@@ -17,14 +18,11 @@ type MyDataFormProps = {
 function MyDataForm(props: MyDataFormProps) {
   console.log(props, "props  MyDataForm");
 
-  const [correctPassword, setCorrectPassword] = useState(true);
-
   const [token, setToken] = useRecoilState(tokenState);
 
   const [userState, setUserState] = useState(false);
 
   const handleSubmit = async (e) => {
-    setCorrectPassword(true);
     e.preventDefault();
 
     const password = e.target.password.value;
@@ -51,6 +49,10 @@ function MyDataForm(props: MyDataFormProps) {
         if (response) {
           setToken(token);
           setUserState(true);
+          Swal.fire({
+            icon: "success",
+            text: `Usuario creado correctamente. Bienvenido! Ya puedes reportar.`,
+          });
         }
       } else if (props.function === "update") {
         // Edit User
@@ -80,14 +82,23 @@ function MyDataForm(props: MyDataFormProps) {
 
         if (updated.usersUpdated.userUpdated.length === 1) {
           setUserState(true);
+          Swal.fire({
+            icon: "success",
+            text: `Usuario actualizado correctamente.`,
+          });
         }
       }
     } else {
-      setCorrectPassword(false);
+      Swal.fire({
+        icon: "error",
+        text: `Las contaseñas ingresadas NO coinciden`,
+      });
     }
   };
 
-  setLSItem("token", token);
+  if (token) {
+    setLSItem("token", token);
+  }
 
   return (
     <>
@@ -123,22 +134,6 @@ function MyDataForm(props: MyDataFormProps) {
           <PrimaryButton> Guardar </PrimaryButton>
         </div>
       </form>
-
-      {correctPassword === false ? (
-        <Alert severity="error">LAS CONTRASEÑAS INGRESADAS NO COINCIDEN</Alert>
-      ) : null}
-
-      {userState ? (
-        <Alert severity="success">
-          {props.function === "signup" ? (
-            <span>
-              Usuario creado correctamente. Bienvenido! Ya puedes reportar.
-            </span>
-          ) : (
-            <span>Usuario actualizado correctamente.</span>
-          )}
-        </Alert>
-      ) : null}
     </>
   );
 }

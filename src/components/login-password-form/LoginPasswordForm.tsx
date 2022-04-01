@@ -50,7 +50,12 @@ function LoginPasswordForm() {
       <form onSubmit={handleSubmit}>
         <label>
           <div> CONTRASEÑA </div>
-          <input type="password" name="password" required />
+          <input
+            type="password"
+            name="password"
+            required
+            onChange={() => setCorrectPassword(true)}
+          />
         </label>
 
         <div className={css.buttonSection}>
