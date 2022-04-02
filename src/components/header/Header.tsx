@@ -14,9 +14,9 @@ import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate, Link } from "react-router-dom";
 import css from "./header.css";
 import { emailState } from "hooks/useCheckUser";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { getLocalStorageItem, setLSItem } from "lib/localStorage";
-import { tokenState } from "lib/atoms";
+import { tokenState, userNameState } from "lib/atoms";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { PrimaryButton } from "ui/buttons";
@@ -35,6 +35,7 @@ const Header = () => {
 
   const [token, setToken] = useRecoilState(tokenState);
   const [email, setEmail] = useRecoilState(emailState);
+  const setUserName = useSetRecoilState(userNameState);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -75,6 +76,7 @@ const Header = () => {
           setLSItem("email", null);
           setToken(null);
           setEmail(null);
+          setUserName(null);
           navigate("/", { replace: true });
 
           MySwal.fire({

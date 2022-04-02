@@ -5,7 +5,7 @@ import Alert from "@mui/material/Alert";
 import css from "./myDataForm.css";
 import { createOrFindUser } from "lib/api";
 import { getLocalStorageItem, setLSItem } from "lib/localStorage";
-import { tokenState } from "lib/atoms";
+import { tokenState, userNameState } from "lib/atoms";
 import Swal from "sweetalert2";
 
 type MyDataFormProps = {
@@ -19,6 +19,9 @@ function MyDataForm(props: MyDataFormProps) {
   console.log(props, "props  MyDataForm");
 
   const [token, setToken] = useRecoilState(tokenState);
+
+  const [userName, setUserName] = useRecoilState(userNameState);
+  console.log(userName, "userName Atom en MyDataForm.tsx");
 
   const [userState, setUserState] = useState(false);
 
@@ -107,7 +110,13 @@ function MyDataForm(props: MyDataFormProps) {
       <form onSubmit={handleSubmit} className={css.subContainer}>
         <label className={css.label}>
           <div> NOMBRE </div>
-          <input className={css.input} type="name" name="name" required />
+          <input
+            className={css.input}
+            type="name"
+            name="name"
+            defaultValue={userName}
+            required
+          />
         </label>
 
         <label className={css.label}>

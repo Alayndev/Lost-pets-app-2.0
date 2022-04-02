@@ -8,12 +8,16 @@ import css from "./loginPasswordForm.css";
 import { createOrFindUser } from "lib/api";
 import { setLSItem } from "lib/localStorage";
 import { tokenState } from "lib/atoms";
+import { userNameState } from "../../lib/atoms";
+import { useSetRecoilState } from "recoil";
 
 // Generar Token: Guardar Token para hacer validaciones en Atom y/o en Local Storage
 function LoginPasswordForm() {
   const [correctPassword, setCorrectPassword] = useState(true);
 
   const [token, setToken] = useRecoilState(tokenState);
+
+  const setUserName = useSetRecoilState(userNameState);
 
   const navigate = useNavigate();
 
@@ -28,7 +32,7 @@ function LoginPasswordForm() {
 
     const userData = { email: emailStateValue, password };
 
-    const { response, token } = await createOrFindUser(userData);
+    const { response, token, userName } = await createOrFindUser(userData);
 
     console.log(response, "res");
 
@@ -37,6 +41,8 @@ function LoginPasswordForm() {
     if (token) {
       setToken(token);
     }
+
+    setUserName(userName);
 
     response ? navigate("/user-data", { replace: true }) : null;
   };

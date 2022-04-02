@@ -43,8 +43,10 @@ async function createOrFindUser(userData: {
     // token
     const token = await getToken(userData.email, userData.password);
 
+    const userName = res.user?.fullName || null;
+
     const response = true;
-    return { response, token };
+    return { response, token, userName };
   } else {
     return { response: false };
   }

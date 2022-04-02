@@ -27,3 +27,9 @@ export const petLatState = atom({
   key: "petLatState",
   default: null,
 });
+
+// user-name
+export const userNameState = atom({
+  key: "userNameState",
+  default: null,
+});
