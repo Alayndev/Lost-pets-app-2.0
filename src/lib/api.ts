@@ -52,7 +52,24 @@ async function createOrFindUser(userData: {
   }
 }
 
-export { createOrFindUser };
+async function updateUser(userData, token) {
+  const res = await (
+    await fetch("https://lost-pet-finder-app.herokuapp.com/users/profile", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `bearer ${token}`,
+      },
+      body: JSON.stringify(userData),
+    })
+  ).json();
+
+  console.log(res, "res API - updateUser()");
+
+  return res;
+}
+
+export { createOrFindUser, updateUser };
 
 // Pet-data Page
 

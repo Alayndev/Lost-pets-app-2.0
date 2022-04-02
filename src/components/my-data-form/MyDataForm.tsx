@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import { PrimaryButton } from "ui/buttons";
-import Alert from "@mui/material/Alert";
 import css from "./myDataForm.css";
-import { createOrFindUser } from "lib/api";
+import { createOrFindUser, updateUser } from "lib/api";
 import { getLocalStorageItem, setLSItem } from "lib/localStorage";
 import { tokenState, userNameState } from "lib/atoms";
 import Swal from "sweetalert2";
+import { TextField } from "ui/text-field";
 
 type MyDataFormProps = {
   function: string; // update - signup
@@ -14,16 +14,10 @@ type MyDataFormProps = {
   itemLS: string; // token - email - En verdad el token ya lo obtengo en la page y aca se lo paso parseado
 };
 
-// TODO: Buscar TODOs en este archivo (api.ts - TextField Comp) - sacar console.log() ya funciona
 function MyDataForm(props: MyDataFormProps) {
-  console.log(props, "props  MyDataForm");
-
   const [token, setToken] = useRecoilState(tokenState);
 
   const [userName, setUserName] = useRecoilState(userNameState);
-  console.log(userName, "userName Atom en MyDataForm.tsx");
-
-  const [userState, setUserState] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +29,6 @@ function MyDataForm(props: MyDataFormProps) {
       // SignUp user
       if (props.function === "signup") {
         const emailParsed = getLocalStorageItem("email");
-        console.log(emailParsed, "email parseado");
 
         const userData = {
           fullName: e.target.name.value,
@@ -51,7 +44,6 @@ function MyDataForm(props: MyDataFormProps) {
 
         if (response) {
           setToken(token);
-          setUserState(true);
           Swal.fire({
             icon: "success",
             text: `Usuario creado correctamente. Bienvenido! Ya puedes reportar.`,
@@ -66,25 +58,14 @@ function MyDataForm(props: MyDataFormProps) {
 
         console.log(userData, "data para la API");
 
-        // TODO: Abstraer igual que con createOrFindeUser - updateUser en este caso en api.ts
-        const updated = await (
-          await fetch(
-            "https://lost-pet-finder-app.herokuapp.com/users/profile",
-            {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `bearer ${props.itemLS}`,
-              },
-              body: JSON.stringify(userData),
-            }
-          )
-        ).json();
+        const updated = await updateUser(userData, props.itemLS);
 
-        console.log(updated, "res");
+        console.log(updated, "res page");
 
         if (updated.usersUpdated.userUpdated.length === 1) {
-          setUserState(true);
+          console.log(updated.usersUpdated.user.fullName, "new fullName");
+
+          setUserName(updated.usersUpdated.user.fullName);
           Swal.fire({
             icon: "success",
             text: `Usuario actualizado correctamente.`,
@@ -105,39 +86,13 @@ function MyDataForm(props: MyDataFormProps) {
 
   return (
     <>
-      {/* TODO: Componentizar - UI Comp text-field - Llevar reglas css de myDataForm.css*/}
-
       <form onSubmit={handleSubmit} className={css.subContainer}>
-        <label className={css.label}>
-          <div> NOMBRE </div>
-          <input
-            className={css.input}
-            type="name"
-            name="name"
-            defaultValue={userName}
-            required
-          />
-        </label>
+       
+        <TextField label="NOMBRE" type="name" name="name" defaultValue={userName} />
 
-        <label className={css.label}>
-          <div> CONTRASEÑA </div>
-          <input
-            className={css.input}
-            type="password"
-            name="password"
-            required
-          />
-        </label>
+        <TextField label="CONTRASEÑA" type="password" name="password"  />
 
-        <label className={css.label}>
-          <div> REPETIR CONTRASEÑA </div>
-          <input
-            className={css.input}
-            type="password"
-            name="repeatedPassword"
-            required
-          />
-        </label>
+        <TextField label="REPETIR CONTRASEÑA" type="password" name="repeatedPassword"  />
 
         <div>
           <PrimaryButton> Guardar </PrimaryButton>

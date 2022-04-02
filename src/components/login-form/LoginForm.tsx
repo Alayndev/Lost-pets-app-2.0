@@ -6,6 +6,7 @@ import { useRecoilState } from "recoil";
 import { emailState } from "hooks/useCheckUser";
 import { useCheckUser } from "hooks/useCheckUser";
 import { setLSItem } from "lib/localStorage";
+import { TextField } from "ui/text-field";
 
 function LoginForm() {
   const [emailStateValue, setEmailState] = useRecoilState(emailState);
@@ -36,10 +37,7 @@ function LoginForm() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label>
-          <div> EMAIL </div>
-          <input type="email" name="email" required />
-        </label>
+        <TextField label="EMAIL" type="email" name="email" />
 
         <div className={css.buttonSection}>
           <PrimaryButton> Siguiente </PrimaryButton>
