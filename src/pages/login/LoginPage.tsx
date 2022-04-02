@@ -8,10 +8,10 @@ import { useCheckUser } from "hooks/useCheckUser";
 import { setLSItem } from "lib/localStorage";
 
 function LoginPage() {
+  // TODO:  Componentizar y llevar al componente - LoginForm
   const [emailStateValue, setEmailState] = useRecoilState(emailState);
   console.log(emailStateValue, "email inicial");
 
-  // TODO: Componentizar y llevar al componente
   const handleSubmit = (e) => {
     e.preventDefault();
 
