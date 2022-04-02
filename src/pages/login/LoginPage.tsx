@@ -7,12 +7,11 @@ import { emailState } from "hooks/useCheckUser";
 import { useCheckUser } from "hooks/useCheckUser";
 import { setLSItem } from "lib/localStorage";
 
-// ? Posible error linea 27
 function LoginPage() {
   const [emailStateValue, setEmailState] = useRecoilState(emailState);
   console.log(emailStateValue, "email inicial");
 
-  // Componentizar y llevar al componente
+  // TODO: Componentizar y llevar al componente
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,7 +27,7 @@ function LoginPage() {
   const exist = useCheckUser();
   console.log(exist, "boolean, decidir navigate");
 
-  // ? Decidir navegacion - FUNCIONA pero me devuelve un error en la consola: Cannot update a component (`BrowserRouter`) while rendering a different component (`LoginPage`) --> EN PRODUCCIÓN NO MUESTRA EL ERROR
+  // Decidir navegacion
   if (exist === true) {
     navigate("/login/password", { replace: true });
   } else if (exist === false) {

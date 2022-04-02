@@ -14,7 +14,7 @@ type MyDataFormProps = {
   itemLS: string; // token - email - En verdad el token ya lo obtengo en la page y aca se lo paso parseado
 };
 
-// TODO: Buscar TODOs en este archivo -  sacar console.log() ya funciona
+// TODO: Buscar TODOs en este archivo (api.ts - TextField Comp) -  sacar console.log() ya funciona
 function MyDataForm(props: MyDataFormProps) {
   console.log(props, "props  MyDataForm");
 
@@ -63,7 +63,7 @@ function MyDataForm(props: MyDataFormProps) {
 
         console.log(userData, "data para la API");
 
-        // TODO: Abstraer igual que con createOrFindeUser - updateUser en este caso
+        // TODO: Abstraer igual que con createOrFindeUser - updateUser en este caso en api.ts
         const updated = await (
           await fetch(
             "https://lost-pet-finder-app.herokuapp.com/users/profile",

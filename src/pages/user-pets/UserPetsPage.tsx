@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { pullUserPets } from "lib/api";
 import { petDataState, userPetsState } from "lib/atoms";
 
-// TODO: Abstraer de lógica a la Page (algo más si se puede)
 function UserPetsPage() {
-  // userPets
+  // TODO: UserPets Comp
   const [userPets, setUserPets] = useRecoilState(userPetsState);
 
   const pullData = async () => {
