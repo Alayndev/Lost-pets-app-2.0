@@ -42,7 +42,7 @@ function ReportModal({ pet, children }) {
           if (reportSent.error) {
             Swal.fire({
               icon: "error",
-              text: `${reportSent.error}. ${report.fullName}, agredecemos la información que intenta brindar acerca de ${report.petName}, pero la misma ya ha sido reportada.`,
+              text: `${report.fullName}, agredecemos la información que intenta brindar acerca de ${report.petName}, pero la misma ya ha sido reportada o ha ingresado su teléfono con espacios erroneamente.`,
             });
           } else {
             Swal.fire({
@@ -76,10 +76,10 @@ function ReportModal({ pet, children }) {
               />
             </label>
             <label className={css["report-pet__label"]}>
-              <span>TU TELEFONO</span>
+              <span>TU TELEFONO (sin espacios) </span>
               <input
                 className={css["report-pet__input"]}
-                type="phone"
+                type="tel"
                 name="tel"
                 required
               />

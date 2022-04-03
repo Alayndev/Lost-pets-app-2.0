@@ -21,9 +21,7 @@ function LoginPasswordForm() {
 
   const navigate = useNavigate();
 
-  // TODO: Quiza usar el email de LS como en SignUpForm.tsx. Es el email que acaba de ingresar el user pero por las dudas de que haga refresh. Sino obtenerlo de ambos lados y usar ||
   const [emailStateValue, setEmailState] = useRecoilState(emailState);
-  console.log(emailStateValue, "email en /login/password");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
