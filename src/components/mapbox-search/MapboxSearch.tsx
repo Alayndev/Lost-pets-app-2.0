@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactMapboxGl, { Layer, Feature, Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -6,7 +6,7 @@ import { Alert } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { MapboxButton } from "ui/buttons";
 import css from "./mapboxSearch.css";
-import { getLocalStorageItem, setLSItem } from "lib/localStorage";
+import { getLocalStorageItem } from "lib/localStorage";
 import { petLatState, petLngState } from "lib/atoms";
 
 // Función básica: Setiar lat y lng en LS/Atom para hacer llamadas a 2 endpoints con esos valores - HECHO
@@ -27,7 +27,6 @@ function MapboxSearch(props: MapBoxSearchProps) {
 
   const [query, setQuery] = useState(props.loc);
 
-  // Luego de que cumpla su función básica
   // TODO: Agrandar/Cambiar marcador --> https://www.youtube.com/watch?v=qWs-dJrRIXw
   // TODO: Pet a Editar con marcador
 
@@ -47,6 +46,14 @@ function MapboxSearch(props: MapBoxSearchProps) {
 
   const [petLng, setPetLgn] = useRecoilState(petLngState);
   const [petLat, setPetLat] = useRecoilState(petLatState);
+
+  // ! De este modo el user NO necesariamente debe cambiar la ubicacion de la pet para editar la misma
+  useEffect(() => {
+    if (props.lat && props.lng) {
+      setPetLgn(props.lng);
+      setPetLat(props.lat);
+    }
+  }, []);
 
   const [alert, setAlert] = useState(false);
 
@@ -69,14 +76,12 @@ function MapboxSearch(props: MapBoxSearchProps) {
     const lat = parseFloat(data.features["0"]?.geometry.coordinates[1]);
     const newCoords = [lon, lat];
 
-    // Seteamos Lng y Lat en Atom/LS
+    // Seteamos Lng y Lat en Atom
     console.log(newCoords, "newCoords");
 
     setCoords(newCoords);
     setPetLgn(lon);
     setPetLat(lat);
-    setLSItem("petLng", lon);
-    setLSItem("petLat", lat);
 
     // lo "tiro" hacia arriba para que reciban las coordenadas desde "afuera"
     if (onChange) {

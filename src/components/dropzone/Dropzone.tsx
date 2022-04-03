@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { DropzoneButton } from "ui/buttons";
 import { useDropzoneAtom } from "hooks/useDropzone";
-import { setLSItem } from "lib/localStorage";
 
 const styleBox: any = {
   width: "333px",
@@ -28,7 +27,31 @@ export function Dropzone(props: dropProps) {
       ? initPreview
       : "https://lost-pet-finder-app.herokuapp.com/no-img.09beee79.png"
   );
+
   const [dropAtom, setDropAtom] = useDropzoneAtom();
+
+  const initPreviewToDataUrl = async () => {
+    let blob = await fetch(initPreview).then((r) => r.blob());
+    let dataUrl = await new Promise((resolve) => {
+      let reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+    console.log(dataUrl, "dataUrl transformada");
+
+    setDropAtom({ dropImage: dataUrl });
+  };
+
+  // ! De esta manera podemos editar la pet SIN necesidad de que el user vuelva a cargar la foto y eliminar dataUrl al editar/reportar
+  useEffect(() => {
+    if (initPreview) {
+      console.log("Tengo pictureURL");
+
+      console.log(initPreview, "averga");
+
+      initPreviewToDataUrl();
+    }
+  }, []);
 
   const { getRootProps, open } = useDropzone({
     accept: "image/*",
@@ -41,8 +64,7 @@ export function Dropzone(props: dropProps) {
         // Actualizamos la view para que el user vea la imagen elegida
         setPreview(e.target.result);
 
-        // Guardarmos la dataURL en Atom/LS
-        setLSItem("dataURL", e.target.result);
+        // Guardarmos la dataURL en Atom
         setDropAtom({ dropImage: e.target.result });
       };
       reader.readAsDataURL(acceptedFiles[0]);

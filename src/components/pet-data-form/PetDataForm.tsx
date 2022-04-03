@@ -6,8 +6,9 @@ import { Dropzone } from "components/dropzone/Dropzone";
 import { createPet, editPet, petFound } from "lib/api";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { petDataState } from "lib/atoms";
+import { petDataState, petLatState, petLngState } from "lib/atoms";
 import css from "./petDataForm.css";
+import { useDropzoneAtom } from "hooks/useDropzone";
 
 // ! Dependiendo de si tenemos petData o no en el Atom State vamos a editar la pet (si tenemos id) o crear el report (si NO tenemos id)
 function PetDataForm() {
@@ -17,6 +18,13 @@ function PetDataForm() {
   const reportOrEdit = petData ? <span>Editar</span> : <span>Reportar</span>;
 
   const [formData, setFormData] = useState({});
+
+  const [petLng, setPetLgn] = useRecoilState(petLngState);
+  const [petLat, setPetLat] = useRecoilState(petLatState);
+  console.log(petLng, petLat, "Hola");
+  
+
+  const [dropAtom, setDropAtom] = useDropzoneAtom();
 
   const navigate = useNavigate();
 
@@ -42,6 +50,9 @@ function PetDataForm() {
         fullName,
         loc,
         description,
+        lng: petLng,
+        lat: petLat,
+        dataURL: dropAtom.dropImage,
       };
 
       console.log(editPetData, "editPetData para la API");
@@ -59,11 +70,14 @@ function PetDataForm() {
         navigate("/user-pets", { replace: true });
 
         setPetData(null);
+        setDropAtom({ dropImage: null });
+        setPetLat(null);
+        setPetLgn(null);
       } else if (!res) {
         Swal.fire({
           icon: "error",
           title:
-            "Su mascota NO ha sido actualizada. Por favor, intente nuevamente",
+            "Su mascota NO ha sido actualizada. Por favor, ingrese la imagen de su mascota nuevamente",
         });
       }
     } else if (!petData) {
@@ -74,7 +88,12 @@ function PetDataForm() {
         fullName,
         loc,
         description,
+        lng: petLng,
+        lat: petLat,
+        dataURL: dropAtom.dropImage,
       };
+
+      console.log(createPetReport, "createPetReport");
 
       const res = await createPet(createPetReport);
 
@@ -87,6 +106,10 @@ function PetDataForm() {
         });
 
         navigate("/user-pets", { replace: true });
+
+        setDropAtom({ dropImage: null });
+        setPetLat(null);
+        setPetLgn(null);
       } else if (res.inputsIncompleted) {
         Swal.fire({
           icon: "error",

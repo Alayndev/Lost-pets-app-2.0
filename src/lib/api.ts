@@ -73,11 +73,15 @@ export { createOrFindUser, updateUser };
 
 // Pet-data Page
 
-const editPet = async ({ id, fullName, loc, description }) => {
-  // ? Lo saco de LS o Atom?
-  const lng = getLocalStorageItem("petLng");
-  const lat = getLocalStorageItem("petLat");
-  const dataURL = getLocalStorageItem("dataURL");
+const editPet = async ({
+  id,
+  fullName,
+  loc,
+  description,
+  lat,
+  lng,
+  dataURL,
+}) => {
   const token = getLocalStorageItem("token");
 
   const bodyToEndpoint = {
@@ -107,7 +111,9 @@ const editPet = async ({ id, fullName, loc, description }) => {
 
   console.log("res API: ", petEdited);
 
-  if (petEdited.algoliaPetUpdated.error || petEdited.petUpdated.error) {
+  if (petEdited.message) {
+    return false;
+  } else if (petEdited.algoliaPetUpdated.error || petEdited.petUpdated.error) {
     console.log(
       "Error :",
       petEdited.petUpdated.error || petEdited.algoliaPetUpdated.error
@@ -118,11 +124,7 @@ const editPet = async ({ id, fullName, loc, description }) => {
   }
 };
 
-const createPet = async ({ fullName, loc, description }) => {
-  // ? Lo saco de LS o Atom?
-  const lng = getLocalStorageItem("petLng");
-  const lat = getLocalStorageItem("petLat");
-  const dataURL = getLocalStorageItem("dataURL");
+const createPet = async ({ fullName, loc, description, lat, lng, dataURL }) => {
   const token = getLocalStorageItem("token");
 
   const bodyToEndpoint = {

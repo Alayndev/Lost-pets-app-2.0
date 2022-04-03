@@ -19,7 +19,7 @@ export const userPetsState = atom({
 
 // pet-data
 export const petLngState = atom({
-  key: "petLatState",
+  key: "petLngState",
   default: null,
 });
 
