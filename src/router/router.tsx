@@ -10,6 +10,7 @@ import { LoginPasswordPage } from "pages/login-password/LoginPasswordPage";
 import { UserPetsPage } from "pages/user-pets/UserPetsPage";
 import { PetDataPage } from "pages/pet-data/PetDataPage";
 import { UserDataPage } from "pages/user-data/UserDataPage";
+import { PageNotFound } from "pages/page-not-found/PageNotFound";
 
 function AppRouter() {
   return (
@@ -27,6 +28,8 @@ function AppRouter() {
           <Route path="user-pets" element={<UserPetsPage />} />
 
           <Route path="pet-data" element={<PetDataPage />} />
+
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </>
